@@ -1,0 +1,35 @@
+body {
+   background-color: #282c34;
+}
+
+main {
+   text-align: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   color: white;
+ }
+
+ main input {
+    margin: 5rem 0;
+    min-width: 40vh;
+ }
+
+ main ul, li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+ }
+
+ main li {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+ }
+
+ main span {
+    padding: 0 1rem;
+ }
