@@ -7,7 +7,7 @@ import './UiButton.css';
 
 function UiButton(props) {
 
-   function onButtonClick(e) {
+   const onButtonClick = (e) => {
       props.callback(props.label);
    }
 
