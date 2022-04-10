@@ -33,3 +33,9 @@ main {
  main span {
     padding: 0 1rem;
  }
+
+ span.delete-icon {
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+ }

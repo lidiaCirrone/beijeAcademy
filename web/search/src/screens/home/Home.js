@@ -12,21 +12,31 @@ import { getTVSeries } from '../../utils/utils';
 
 function Home() {
 
-   const data = getTVSeries();
-
    const [state, setState] = useState({
       searchString: '',
-      visibleData: data
+      obj: getTVSeries(),
+      visibleData: getTVSeries()
    });
 
    const inputCallback = (string) => {
       console.log(string);
       setState({
          ...state,
-         searchString: string.toLowerCase,
-         visibleData: data.filter(item => item.name.toLowerCase().startsWith(string.toLowerCase()))
+         searchString: string.toLowerCase(),
+         visibleData: state.obj.filter(item => item.name.toLowerCase().startsWith(string.toLowerCase()))
          // TO-DO use .match() to avoid .toLowerCase()
-         // visibleData: data.filter(item => item.name.match(`/${string}/i`))
+         // visibleData: state.obj.filter(item => item.name.match(`/${string}/i`))
+      })
+   }
+
+   const deleteCallback = (itemId) => (e) => {
+      let newObj = state.obj;
+      console.log(`deleting "${newObj[itemId].name}", index: ${itemId}`);
+      delete (newObj[itemId]);
+      setState({
+         ...state,
+         obj: newObj,
+         visibleData: newObj.filter(item => item.name.toLowerCase().startsWith(state.searchString))
       })
    }
 
@@ -36,6 +46,7 @@ function Home() {
             <span>{item.name}</span>
             <span>{item.seasons} seasons</span>
             <span>first aired in {item.year}</span>
+            <span className={'delete-icon'} onClick={deleteCallback(item.id)}>x</span>
          </li>
       )
    }
