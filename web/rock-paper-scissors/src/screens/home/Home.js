@@ -11,6 +11,19 @@ function Home() {
 
    let game = {
       options: ['rock', 'paper', 'scissors'],
+      outcomes: // possible outcomes, [whose score][player choice][cpu choice]
+         [
+            [
+               [0, 0, 1],
+               [1, 0, 0],
+               [0, 1, 0]
+            ],
+            [
+               [0, 1, 0],
+               [0, 0, 1],
+               [1, 0, 0]
+            ]
+         ],
       player: [],
       cpu: [],
       moves: 0,
@@ -28,33 +41,13 @@ function Home() {
    }
 
    function assignPoints(player, cpu) {
-      console.log('player:', player);
-      console.log('cpu:', cpu);
+      game.playerScore += game.outcomes[0][player][cpu];
+      game.cpuScore += game.outcomes[1][player][cpu];
 
-      if (player === 'rock') {
-         // if player chooses rock
-         if (cpu === 'paper') {
-            game.cpuScore++;
-         } else if (cpu === 'scissors') {
-            game.playerScore++;
-         }
-      } else if (player === 'paper') {
-         // if player chooses paper
-         if (cpu === 'scissors') {
-            game.cpuScore++;
-         } else {
-            game.playerScore++;
-         }
-      } else if (player === 'scissors') {
-         // if player chooses scissors
-         if (cpu === 'rock') {
-            game.cpuScore++;
-         } else {
-            game.playerScore++;
-         }
-      }
-
-      console.log(`player: ${game.playerScore} - cpu: ${game.cpuScore}`);
+      console.log('player:', game.options[player]);
+      console.log('cpu:', game.options[cpu]);
+      console.log(`player: ${game.outcomes[0][player][cpu]} - cpu: ${game.outcomes[1][player][cpu]}`);
+      console.log(`TOTAL SCORE ${game.playerScore} - ${game.cpuScore}`);
       console.log('-');
 
       if (game.moves === 3) {
@@ -84,7 +77,9 @@ function Home() {
       game.player.push(playerChoice);
       let cpuChoice = cpuMove();
       game.moves++;
-      assignPoints(playerChoice, cpuChoice);
+      let playerChoiceIndex = game.options.indexOf(playerChoice);
+      let cpuChoiceIndex = game.options.indexOf(cpuChoice);
+      assignPoints(playerChoiceIndex, cpuChoiceIndex);
    }
 
    return (
