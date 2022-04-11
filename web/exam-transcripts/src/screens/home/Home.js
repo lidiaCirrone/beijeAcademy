@@ -10,8 +10,10 @@ import './Home.css';
 
 function Home() {
 
+   let transcriptLS = (localStorage.getItem('transcript')) !== null ? JSON.parse(localStorage.getItem('transcript')) : [];
+
    const [state, setState] = useState({
-      transcript: [],
+      transcript: transcriptLS,
       subjectInput: '',
       writtenGradeInput: '',
       oralGradeInput: ''
@@ -41,7 +43,7 @@ function Home() {
       })
    }
 
-   const addExam = (e) => {
+   const addExam = () => {
       if (state.subjectInput !== '' && state.writtenGradeInput !== '' && state.oralGradeInput !== '') {
          if (state.writtenGradeInput < -8 || state.writtenGradeInput > 8) {
             console.log('insertion:', 'the grade for a written exam can only be between -8 and 8');
@@ -64,6 +66,9 @@ function Home() {
                writtenGradeInput: '',
                oralGradeInput: ''
             });
+
+            localStorage.setItem('transcript', JSON.stringify(newTranscript));
+            console.log('localStorage.getItem("transcript")', localStorage.getItem('transcript'));
 
             alert('SUCCESSFUL REGISTRATION!');
             console.log('transcript object data:', state.transcript);
