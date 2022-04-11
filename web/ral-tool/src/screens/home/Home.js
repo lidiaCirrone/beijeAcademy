@@ -13,7 +13,11 @@ function Home() {
    const [state, setState] = useState({
       ralInput: '',
       ral: 0,
-      taxes: 0
+      taxes: 0,
+      toast: {
+         value: '',
+         className: ''
+      }
    });
 
    const ralCallback = (value) => {
@@ -27,6 +31,8 @@ function Home() {
 
    const calculateTaxes = () => {
 
+      let toastObject = state.toast;
+
       let income = state.ral;
       let taxesAmount = 0;
       let taxBrackets = [
@@ -36,54 +42,83 @@ function Home() {
          [30000, Infinity, 0.03]
       ]
 
-      for (let interval of taxBrackets) {
-         console.log('interval:', interval);
-         if (income < interval[1]) {
-            taxesAmount += (income - interval[0]) * interval[2];
-            console.log('amount on which to calculate:', income - interval[0]);
-            console.log('taxes:', (income - interval[0]) * interval[2]);
-            break;
-         } else {
-            taxesAmount += (interval[1] - interval[0]) * interval[2];
-            console.log('amount on which to calculate:', (interval[1] - interval[0]));
-            console.log('taxes:', (interval[1] - interval[0]) * interval[2]);
+      if (income < 0 || income === NaN) {
+         toastObject.value = 'Invalid number';
+         toastObject.className = ['show error'];
+      } else {
+
+         for (let interval of taxBrackets) {
+            console.log('interval:', interval);
+            if (income < interval[1]) {
+               taxesAmount += (income - interval[0]) * interval[2];
+               console.log('amount on which to calculate:', income - interval[0]);
+               console.log('taxes:', (income - interval[0]) * interval[2]);
+               break;
+            } else {
+               taxesAmount += (interval[1] - interval[0]) * interval[2];
+               console.log('amount on which to calculate:', (interval[1] - interval[0]));
+               console.log('taxes:', (interval[1] - interval[0]) * interval[2]);
+            }
+            console.log('-');
          }
+
          console.log('-');
+         console.log('total taxes:', taxesAmount);
+
+         toastObject.value = (
+            <>
+               <span>
+                  <b>RAL:</b> {income}€
+               </span>
+               <span>
+                  <b>Taxes:</b> {Math.round(taxesAmount)}€
+               </span></>
+         )
+         toastObject.className = 'show';
+
       }
-
-      console.log('-');
-      console.log('total taxes:', taxesAmount);
-
       setState({
          ...state,
-         taxes: taxesAmount
+         ralInput: '',
+         taxes: taxesAmount,
+         toast: toastObject
       })
    }
 
    return (
-      <main>
+      <>
+         <main>
 
-         <UiInputBox
-            label={'RAL'}
-            value={state.ralInput}
-            type={'number'}
-            placeholder={'insert ral here'}
-            callback={ralCallback}
-            tabIndex={'1'}
-         />
+            <UiInputBox
+               label={'RAL'}
+               value={state.ralInput}
+               type={'number'}
+               placeholder={'insert ral here'}
+               callback={ralCallback}
+               tabIndex={'1'}
+            />
 
-         <UiButton
-            label={'Calculate'}
-            callback={calculateTaxes}
-            tabIndex={'2'}
-         />
+            <UiButton
+               label={'Calculate'}
+               callback={calculateTaxes}
+               tabIndex={'2'}
+            />
 
-         <ul>
-            <li>RAL: {state.ral}</li>
-            <li>Taxes: {state.taxes}</li>
-         </ul>
+            {/* <ul>
+               <li>RAL: {state.ral}</li>
+               <li>Taxes: {state.taxes}</li>
+            </ul> */}
 
-      </main>
+         </main>
+
+         <div
+            id="toast"
+            className={state.toast.className}
+         >
+            {state.toast.value}
+         </div>
+
+      </>
    );
 }
 
