@@ -14,6 +14,12 @@ function Home() {
 
    const [state, setState] = useState({
       transcript: transcriptLS,
+      score: {
+         total: transcriptLS.length,
+         average: 0,
+         failed: 0,
+         nailed: 0
+      },
       subjectInput: '',
       writtenGradeInput: '',
       oralGradeInput: ''
@@ -42,23 +48,45 @@ function Home() {
 
    const assignResult = (data) => {
       data.result = 'fail';
-      let total = data.writtenGrade + data.oralGrade;
-      console.log(`written exam: ${data.writtenGrade} - oral exam: ${data.oralGrade} - total: ${total}`);
+      console.log(`written exam: ${data.writtenGrade} - oral exam: ${data.oralGrade} - total: ${data.totalGrade}`);
 
-      if (total > 18 && data.writtenGrade > 0) {
-         console.log(`You got ${total} - PASS`);
+      if (data.totalGrade > 18 && data.writtenGrade > 0) {
+         console.log(`You got ${data.totalGrade} - PASS`);
          data.result = 'pass';
       }
-      if (total === 30) {
+      if (data.totalGrade === 30) {
          console.log('high pass!');
          data.result = 'high';
       }
-      if (total === 31 || total === 32) {
+      if (data.totalGrade === 31 || data.totalGrade === 32) {
          console.log('honors!');
          data.result = 'honors';
       }
 
       return data;
+   }
+
+   const calculateScore = (newTranscript) => {
+
+      let totalExams = newTranscript.length;
+      let totalScore = 0;
+      let examsAverage = 0;
+      let failedExams = newTranscript.filter(exam => exam.result === 'fail').length;
+      let nailedExams = newTranscript.filter(exam => exam.result === 'high' || exam.result === 'honors').length;
+      for (let exam of newTranscript) {
+         totalScore += exam.totalGrade;
+      }
+      examsAverage = totalScore / totalExams;
+
+      let scoreObject = {
+         total: totalExams,
+         average: examsAverage,
+         failed: failedExams,
+         nailed: nailedExams
+      }
+      console.log(scoreObject);
+
+      return scoreObject;
    }
 
    const addExam = () => {
@@ -69,18 +97,24 @@ function Home() {
             console.log('insertion:', 'the grade for an oral exam can only be between 0 and 24');
          } else {
 
+            let writtenGradeInt = parseInt(state.writtenGradeInput);
+            let oralGradeInt = parseInt(state.oralGradeInput);
             let examData = {
                subject: state.subjectInput,
-               writtenGrade: parseInt(state.writtenGradeInput),
-               oralGrade: parseInt(state.oralGradeInput)
+               writtenGrade: writtenGradeInt,
+               oralGrade: oralGradeInt,
+               totalGrade: writtenGradeInt + oralGradeInt
             };
             examData = assignResult(examData);
             console.log('exam data:', examData);
-
             let newTranscript = state.transcript;
             newTranscript.push(examData);
+
+            let scoreObject = calculateScore(newTranscript);
+
             setState({
                transcript: newTranscript,
+               score: scoreObject,
                subjectInput: '',
                writtenGradeInput: '',
                oralGradeInput: ''
@@ -97,7 +131,7 @@ function Home() {
 
    const renderListItem = (item, key) => {
       return (
-         <li key={key}>
+         <li key={key} className="flex-list">
             <span>{item.subject}</span>
             <span>{item.writtenGrade}</span>
             <span>{item.oralGrade}</span>
@@ -142,6 +176,13 @@ function Home() {
             callback={addExam}
             tabIndex={'4'}
          />
+
+         <ul>
+            <li>Total of exams taken: {state.score.total}</li>
+            <li>Average: {state.score.average}</li>
+            <li>Failed exams: {state.score.failed}</li>
+            <li>Nailed exams: {state.score.nailed}</li>
+         </ul>
 
          <ul>
             {state.transcript.map(renderListItem)}
