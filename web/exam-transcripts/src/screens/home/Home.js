@@ -20,7 +20,6 @@ function Home() {
    });
 
    const subjectCallback = (value) => {
-      console.log(value);
       setState({
          ...state,
          subjectInput: value
@@ -28,7 +27,6 @@ function Home() {
    }
 
    const writtenGradeCallback = (value) => {
-      console.log(value);
       setState({
          ...state,
          writtenGradeInput: value
@@ -36,11 +34,31 @@ function Home() {
    }
 
    const oralGradeCallback = (value) => {
-      console.log(value);
       setState({
          ...state,
          oralGradeInput: value
       })
+   }
+
+   const assignResult = (data) => {
+      data.result = 'fail';
+      let total = data.writtenGrade + data.oralGrade;
+      console.log(`written exam: ${data.writtenGrade} - oral exam: ${data.oralGrade} - total: ${total}`);
+
+      if (total > 18 && data.writtenGrade > 0) {
+         console.log(`You got ${total} - PASS`);
+         data.result = 'pass';
+      }
+      if (total === 30) {
+         console.log('high pass!');
+         data.result = 'high';
+      }
+      if (total === 31 || total === 32) {
+         console.log('honors!');
+         data.result = 'honors';
+      }
+
+      return data;
    }
 
    const addExam = () => {
@@ -56,6 +74,7 @@ function Home() {
                writtenGrade: parseInt(state.writtenGradeInput),
                oralGrade: parseInt(state.oralGradeInput)
             };
+            examData = assignResult(examData);
             console.log('exam data:', examData);
 
             let newTranscript = state.transcript;
@@ -69,13 +88,23 @@ function Home() {
 
             localStorage.setItem('transcript', JSON.stringify(newTranscript));
             console.log('localStorage.getItem("transcript")', localStorage.getItem('transcript'));
-
-            alert('SUCCESSFUL REGISTRATION!');
             console.log('transcript object data:', state.transcript);
          }
       } else {
          console.log('insertion:', 'you must fill in all required fields')
       }
+   }
+
+   const renderListItem = (item, key) => {
+      return (
+         <li key={key}>
+            <span>{item.subject}</span>
+            <span>{item.writtenGrade}</span>
+            <span>{item.oralGrade}</span>
+            <span>{item.writtenGrade + item.oralGrade}</span>
+            <span>{item.result}</span>
+         </li>
+      )
    }
 
    return (
@@ -109,10 +138,15 @@ function Home() {
          />
 
          <UiButton
-            label={'Register'}
+            label={'Add'}
             callback={addExam}
             tabIndex={'4'}
          />
+
+         <ul>
+            {state.transcript.map(renderListItem)}
+         </ul>
+
       </main>
    );
 }
