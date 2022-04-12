@@ -8,8 +8,8 @@ class UiClassButton extends Component {
       this.name = 'ciao';
    }
 
-   callbackButton(){
-      this.props.callback(); // si spacca perché così this si riferisce al metodo, e non alla classe. E qui dentro al metodo non c'è props.callback()!
+   callbackButton = (e) => {
+      this.props.callback();
    }
 
    render() {
