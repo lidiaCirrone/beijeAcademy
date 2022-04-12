@@ -9,9 +9,7 @@ function UiInputBox(props) {
 
    return (
       <label>
-         <span>
-            {props.label}
-         </span>
+         {props.label}
          <input
             value={props.value}
             type={props.type}
