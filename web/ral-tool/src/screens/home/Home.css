@@ -4,7 +4,6 @@ body {
 
 main {
    margin: 5rem auto 0;
-   width: 400px;
    text-align: center;
    display: flex;
    flex-direction: column;
@@ -14,7 +13,6 @@ main {
  }
 
  main input {
-   margin-left: 1rem;
    font-size: 16px;
    width: 120px;
  }
@@ -45,7 +43,8 @@ main {
  }
 
  main span {
-   padding: 0 1rem;
+   display: block;
+   margin: 0.5rem 0;
  }
 
  span.delete-icon {
