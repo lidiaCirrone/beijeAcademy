@@ -72,10 +72,12 @@ function Home() {
                </span>
                <span>
                   <b>Taxes:</b> {Math.round(taxesAmount)}€
-               </span></>
+               </span>
+            </>
          )
          toastObject.className = 'show';
 
+         localStorage.setItem(`RAL: ${income}€`, `Taxes: ${Math.round(taxesAmount)}€`);
       }
       setState({
          ...state,
@@ -103,11 +105,6 @@ function Home() {
                callback={calculateTaxes}
                tabIndex={'2'}
             />
-
-            {/* <ul>
-               <li>RAL: {state.ral}</li>
-               <li>Taxes: {state.taxes}</li>
-            </ul> */}
 
          </main>
 
