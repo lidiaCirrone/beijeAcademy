@@ -23,7 +23,7 @@ function UiInputBox(props) {
       return (
          console.log('will unmount')
       )
-   })
+   }, [])
 
    function onInputChange(e) {
       props.callback(e.target.value)
