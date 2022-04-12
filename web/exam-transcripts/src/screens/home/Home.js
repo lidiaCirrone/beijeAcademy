@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // COMPONENTS
-import UiInputBox from '../../components/hookComponents/ui/uiInputBox/UiInputBox';
-import UiButton from '../../components/hookComponents/ui/uiButton/UiButton';
+import UiInputBox from '../../components/funcComponents/ui/uiInputBox/UiInputBox';
+import UiButton from '../../components/funcComponents/ui/uiButton/UiButton';
 
 // STYLES
 import './Home.css';
