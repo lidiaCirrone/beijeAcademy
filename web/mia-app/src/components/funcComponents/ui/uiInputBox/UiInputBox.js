@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // STYLES
@@ -6,6 +6,24 @@ import './UiInputBox.css';
 
 
 function UiInputBox(props) {
+
+   // ComponentDidMount()
+   useEffect(() => {
+      console.log('mounted')
+         , []
+   })
+
+   // ComponentDidUpdate()
+   useEffect(() => {
+      console.log('updated')
+   })
+
+   // ComponentWillUnmount()
+   useEffect(() => {
+      return (
+         console.log('will unmount')
+      )
+   })
 
    function onInputChange(e) {
       props.callback(e.target.value)
