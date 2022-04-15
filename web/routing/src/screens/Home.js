@@ -8,11 +8,20 @@ function Home() {
       navigate(path);
    }
 
+   const goToHidden = (path) => () => {
+      navigate(path, {
+         state: {
+            id: 5,
+            name: 'Lidia'
+         }
+      });
+   }
+
    return (
       <>
          <p>Home</p>
          {
-            <button onClick={goTo("/detail/5/test")}>
+            <button onClick={goToHidden("/detail/5/test")}>
                Detail
             </button>
          }
