@@ -1,8 +1,9 @@
 const routes = {
-   SIGNUP: '/',
-   LOGIN: 'login',
-   HOME: 'home',
-   DETAIL: 'detail/:id'
+   HOME: '/',
+   SIGNUP: '/signup',
+   LOGIN: '/login',
+   NEWS: '/news',
+   DETAIL: '/detail/:id'
 }
 
 // const path = {

@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
+import { routes } from '../routes/routes';
 
-// import { path } from '../routes/routes';
+function SignUp() {
 
-function Home() {
-
-   // const navigate = useNavigate();
-   // const params = useParams()
-   // const location = useLocation()
-   // console.log(params);
-   // console.log(location);
-
+   const navigate = useNavigate();
 
    const localStorageUsers = localStorage.getItem('users');
    let users = localStorageUsers ? JSON.parse(localStorageUsers) : [];
+   let currentUser = {};
 
    const [state, setState] = useState({
       firstNameInput: '',
@@ -59,13 +54,13 @@ function Home() {
          if (localStorageUsers !== null && JSON.parse(localStorageUsers).find(user => user.email === state.emailInput)) {
             alert('sorry, this email has already been used');
          } else {
-            let userData = {
+            currentUser = {
                firstName: state.firstNameInput,
                lastName: state.lastNameInput,
                email: state.emailInput,
                password: state.passwordInput
             }
-            users.push(userData);
+            users.push(currentUser);
             localStorage.setItem('users', JSON.stringify(users));
             setState({
                firstNameInput: '',
@@ -73,6 +68,17 @@ function Home() {
                emailInput: '',
                passwordInput: ''
             })
+
+            //reindirizza alla home e logga
+            navigate(
+               '/news',
+               {
+                  state: {
+                     isLogged: true,
+                     user: currentUser
+                  }
+               }
+            );
 
          }
       }
@@ -86,8 +92,10 @@ function Home() {
          <input type='password' placeholder='Password...' onChange={savePassword} value={state.passwordInput} />
 
          <button onClick={handleSignUp}>Sign Up</button>
+
+         <p>already registered? Log in <Link to={routes.LOGIN}>here</Link></p>
       </main>
    );
 }
 
-export default Home;
+export default SignUp;
