@@ -1,6 +1,9 @@
 import React from 'react';
 import { useNavigate, Link, Outlet } from 'react-router-dom';
 
+import './Cms.css';
+
+
 function Home() {
    const navigate = useNavigate();
 
@@ -10,24 +13,40 @@ function Home() {
 
    return (
       <>
-         <p>Cms</p>
 
-         <button onClick={goTo("/cms/profile")}>
-            Profile
-         </button>
+         <header>
+            <h2>Header Cms page</h2>
+         </header>
 
-         <button onClick={goTo("/cms/orders")}>
-            Orders
-         </button>
+         <section>
+            <nav>
+               <ul>
+                  <li>
+                     <Link to={'profile'}>profile</Link>
+                  </li>
+                  <li>
+                     <Link to={'orders'}>orders</Link>
+                  </li>
+               </ul>
+               <div className={'flex-container'}>
+                  <button onClick={goTo("/cms/profile")}>
+                     Profile
+                  </button>
+                  <span> | </span>
+                  <button onClick={goTo("/cms/orders")}>
+                     Orders
+                  </button>
+               </div>
+            </nav>
 
-         <div>
-            <Link to={'profile'}>profile</Link>
-         </div>
-         <div>
-            <Link to={'orders'}>orders</Link>
-         </div>
+            <article>
+               <Outlet />
+            </article>
+         </section>
 
-         <Outlet />
+         <footer>
+            <p>Footer</p>
+         </footer>
 
       </>
    )
