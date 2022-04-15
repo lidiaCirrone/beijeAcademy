@@ -16,11 +16,16 @@ function Home() {
             Profile
          </button>
 
-         <Link to={'orders'}>orders</Link>
-
          <button onClick={goTo("/cms/orders")}>
             Orders
          </button>
+
+         <div>
+            <Link to={'profile'}>profile</Link>
+         </div>
+         <div>
+            <Link to={'orders'}>orders</Link>
+         </div>
 
          <Outlet />
 
