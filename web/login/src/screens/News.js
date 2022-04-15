@@ -2,6 +2,9 @@ import React from 'react';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { routes } from '../routes/routes';
 
+// UTILS
+import { getNews } from '../utils/utils';
+
 
 function News() {
 
@@ -15,7 +18,10 @@ function News() {
    console.log(location?.state?.user);
    console.log(params);
 
-   if (location?.state?.isLogged === false) {
+   const newsData = getNews();
+   console.log(newsData);
+
+   if (location.state === null || location.state.isLogged === false) {
       return (
          <div>
             <p>
@@ -25,13 +31,27 @@ function News() {
       );
    } else {
       return (
-         <div>
+         <main>
             <h1>
                News
             </h1>
-            <p>news news news</p>
-            <p><Link to={routes.LOGIN} state={{isLogged: false}}>logout</Link></p>
-         </div>
+            <div className='news-container'>
+               <ul>
+                  {
+                     newsData.map(article => {
+                        return (
+                           <li key={`article-${article.id}`}>
+                              <h3>{article.title}</h3>
+                              <h4>{article.subtitle}</h4>
+                              <p>{article.description}</p>
+                           </li>
+                        )
+                     })
+                  }
+               </ul>
+            </div>
+            <p><Link to={routes.LOGIN} state={{ isLogged: false }}>logout</Link></p>
+         </main>
       );
    }
 
