@@ -5,6 +5,9 @@ import './Routing.css';
 import Home from './screens/Home';
 import Detail from './screens/Detail';
 import Contact from './screens/Contact';
+import Cms from './screens/Cms';
+import Profile from './screens/Profile';
+import Orders from './screens/Orders';
 
 import NotFound from './screens/NotFound';
 
@@ -17,6 +20,11 @@ function Routing() {
          <Route index path="/" element={<Home />} />
          <Route path="detail/:id/:name" element={<Detail />} />
          <Route path="contact" element={<Contact />} />
+
+         <Route path="cms" element={<Cms />}>
+            <Route path="profile" element={<Profile />} />
+            <Route path="orders" element={<Orders />} />
+         </Route>
 
          <Route path="*" element={<NotFound />} />
       </Routes>
