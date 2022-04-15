@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Link, Outlet } from 'react-router-dom';
 
 function Home() {
    const navigate = useNavigate();
@@ -15,6 +15,8 @@ function Home() {
          <button onClick={goTo("/cms/profile")}>
             Profile
          </button>
+
+         <Link to={'orders'}>orders</Link>
 
          <button onClick={goTo("/cms/orders")}>
             Orders
