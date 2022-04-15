@@ -1,0 +1,28 @@
+body, input, button {
+   font-size: 16px;
+}
+
+#root {
+   height: 100vh;
+}
+
+#root, main {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+input, button {
+   margin: 1rem 0;
+   padding: 10px;
+   border-radius: 5px;
+}
+
+button {
+   border: none;
+}
+
+button:hover {
+   cursor: pointer
+}
