@@ -12,16 +12,13 @@ function Home() {
       <>
          <p>Cms</p>
 
-         {
-            <button onClick={goTo("/cms/profile")}>
-               Profile
-            </button>
-         }
-         {
-            <button onClick={goTo("/cms/orders")}>
-               Orders
-            </button>
-         }
+         <button onClick={goTo("/cms/profile")}>
+            Profile
+         </button>
+
+         <button onClick={goTo("/cms/orders")}>
+            Orders
+         </button>
 
          <Outlet />
 
