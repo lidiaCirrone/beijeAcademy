@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
-import {path} from './routes/routes/';
+import {path} from '../routes/routes';
 
 function Home() {
   //https://jsonplaceholder.typicode.com/posts

@@ -8,8 +8,8 @@ const routes = {
    ORDERS: 'orders/:id/:name'
 }
 
-const path = () => {
-   function detail() {
+const path = {
+   detail: function (params) {
       return `detail/${params}`
    }
 }
