@@ -1,55 +1,45 @@
 import React from 'react';
-import { useNavigate, Link, Outlet } from 'react-router-dom';
+import { useNavigate, useParams, useLocation, Outlet, Link } from "react-router-dom";
 
-import './Cms.css';
+function Cms() {
 
+  const navigate = useNavigate();
 
-function Home() {
-   const navigate = useNavigate();
+  const params = useParams()
+  const location = useLocation()
 
-   const goTo = (path) => () => {
-      navigate(path);
-   }
+  console.log(params.id)
+  console.log(location)
 
-   return (
-      <>
+  return (
+    <div>
+      <p>
+        Cms
+      </p>
+      <div>
+        <button onClick={() => {
+          navigate("profile");
+        }
+        }>
+          profile
+        </button>
 
-         <header>
-            <h2>Header Cms page</h2>
-         </header>
+        <Link to={'orders/5/roby'} state={{
+          name: 'forbici'
+        }}> orders </Link>
 
-         <section>
-            <nav>
-               <ul>
-                  <li>
-                     <Link to={'profile'}>profile</Link>
-                  </li>
-                  <li>
-                     <Link to={'orders'}>orders</Link>
-                  </li>
-               </ul>
-               <div className={'flex-container'}>
-                  <button onClick={goTo("/cms/profile")}>
-                     Profile
-                  </button>
-                  <span> | </span>
-                  <button onClick={goTo("/cms/orders")}>
-                     Orders
-                  </button>
-               </div>
-            </nav>
+        <button onClick={() => {
+          navigate("/");
+        }
+        }>
+          home
+        </button>
+      </div>
 
-            <article>
-               <Outlet />
-            </article>
-         </section>
+      <Outlet />
 
-         <footer>
-            <p>Footer</p>
-         </footer>
-
-      </>
-   )
+    </div>
+  );
 }
 
-export default Home;
+export default Cms;
