@@ -15,7 +15,7 @@ function Routing() {
    return (
       <Routes>
          <Route index path="/" element={<Home />} />
-         <Route path="detail/:id" element={<Detail />} />
+         <Route path="detail/:id/:name" element={<Detail />} />
          <Route path="contact" element={<Contact />} />
 
          <Route path="*" element={<NotFound />} />

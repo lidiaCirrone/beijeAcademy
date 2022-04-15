@@ -12,7 +12,7 @@ function Home() {
       <>
          <p>Home</p>
          {
-            <button onClick={goTo("/detail/5")}>
+            <button onClick={goTo("/detail/5/test")}>
                Detail
             </button>
          }
