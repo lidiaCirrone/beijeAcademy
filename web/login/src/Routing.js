@@ -7,6 +7,7 @@ import './Routing.css';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
 import News from './screens/News';
+import Detail from './screens/Detail';
 import NotFound from './screens/NotFound';
 
 // UTILS
@@ -22,6 +23,8 @@ function Routing() {
          <Route path={'signup'} element={<SignUp />} />
          <Route path={'login'} element={<Login />} />
          <Route path={'news'} element={<News />} />
+         <Route path={'news/detail/:id'} element={<Detail />} />
+
          <Route path="*" element={<NotFound />} />
 
       </Routes>

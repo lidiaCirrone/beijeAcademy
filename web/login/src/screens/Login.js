@@ -17,7 +17,10 @@ function Login() {
 
    if (location.state === null || location.state.isLogged === false) {
       return (
-         <div>
+         <div className='flex-center p-20'>
+            <p>
+               login form here
+            </p>
             <p>
                Not registered, sign up <Link to={routes.SIGNUP}>here</Link>
             </p>

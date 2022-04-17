@@ -85,7 +85,8 @@ function SignUp() {
    }
 
    return (
-      <main>
+      <main className='mt-50'>
+         <h1>Sign Up</h1>
          <input type='text' placeholder='First name...' onChange={saveFirstName} value={state.firstNameInput} />
          <input type='text' placeholder='Last name...' onChange={saveLastName} value={state.lastNameInput} />
          <input type='text' placeholder='Email...' onChange={saveEmail} value={state.emailInput} />

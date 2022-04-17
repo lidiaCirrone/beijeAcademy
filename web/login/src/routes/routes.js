@@ -3,16 +3,16 @@ const routes = {
    SIGNUP: '/signup',
    LOGIN: '/login',
    NEWS: '/news',
-   DETAIL: '/detail/:id'
+   DETAIL: 'detail/:id'
 }
 
-// const path = {
-//    detail: function (params) {
-//       return `detail/${params}`
-//    }
-// }
+const path = {
+   detail: function (params) {
+      return `detail/${params}`
+   }
+}
 
 export {
-   routes
-   // path
+   routes,
+   path
 }
