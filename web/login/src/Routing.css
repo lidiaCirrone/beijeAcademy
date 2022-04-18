@@ -2,10 +2,6 @@ body, input, button {
    font-size: 16px;
 }
 
-/* #root {
-   height: 100vh;
-} */
-
 #root, main {
    display: flex;
    flex-direction: column;
@@ -24,7 +20,16 @@ button {
 }
 
 button:hover {
-   cursor: pointer
+   background-color: #daece6;
+   cursor: pointer;
+}
+
+a {
+   color: #74a897;
+}
+
+a:hover {
+   color: #b9b9b9;
 }
 
 

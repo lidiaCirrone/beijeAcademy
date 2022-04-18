@@ -8,7 +8,7 @@ const routes = {
 
 const path = {
    detail: function (params) {
-      return `detail/${params}`
+      return `detail/${params}`;
    }
 }
 

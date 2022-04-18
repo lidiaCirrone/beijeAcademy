@@ -1,20 +1,12 @@
 import React from 'react';
-import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
+import { useLocation, Link, Navigate } from 'react-router-dom';
 import { routes } from '../routes/routes';
 
 
 function Login() {
 
-   const navigate = useNavigate();
-   const location = useLocation()
-   const params = useParams();
-
-   console.log('location', location);
-   console.log('location state isLogged', location?.state?.isLogged);
-   console.log('location state user', location?.state?.user);
-   console.log('params', params);
+   const location = useLocation();
    const localStorageLoggedUser = localStorage.getItem('loggedUser');
-   console.log('loggedUser', localStorageLoggedUser);
 
    if (localStorageLoggedUser === null) {
       return (
@@ -28,9 +20,8 @@ function Login() {
          </div>
       );
    } else {
-      return <Navigate to="/news" state={{ from: location }} />
+      return <Navigate to={routes.NEWS} state={{ from: location }} />
    }
-
 }
 
 export default Login;

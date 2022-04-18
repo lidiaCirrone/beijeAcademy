@@ -9,8 +9,8 @@ function NotFound() {
             Page Not Found
          </h1>
          <p>
-            <Link to={routes.NEWS}>
-               back to all news
+            <Link to={routes.HOME}>
+               back to the homepage
             </Link>
          </p>
       </div>

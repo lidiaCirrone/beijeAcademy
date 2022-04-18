@@ -1,29 +1,24 @@
 import React from 'react';
-import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link, Navigate } from 'react-router-dom';
 import { path, routes } from '../routes/routes';
 
 // UTILS
 import { getNews } from '../utils/utils';
 
-
 function News() {
 
    const navigate = useNavigate();
    const location = useLocation()
-   const params = useParams();
-
-   console.log('location', location);
-   console.log('location state isLogged', location?.state?.isLogged);
-   console.log('location state user', location?.state?.user);
-   console.log('params', params);
    const localStorageLoggedUser = localStorage.getItem('loggedUser');
-   console.log('loggedUser', localStorageLoggedUser);
-
    const newsData = getNews();
-   console.log(newsData);
+
+   const signOut = () => {
+      localStorage.removeItem('loggedUser');
+      navigate(routes.HOME);
+   }
 
    if (localStorageLoggedUser === null) {
-      return <Navigate to="/login" state={{ from: location }} />
+      return <Navigate to={routes.LOGIN} state={{ from: location }} />
    } else {
       return (
          <main>
@@ -53,7 +48,9 @@ function News() {
                   }
                </ul>
             </div>
-            <p><Link to={routes.LOGIN} state={{ isLogged: false }}>logout</Link></p>
+            <p>
+               <button onClick={signOut}>logout</button>
+            </p>
          </main>
       );
    }

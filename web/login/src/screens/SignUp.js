@@ -81,17 +81,7 @@ function SignUp() {
                passwordInput: ''
             })
 
-            //reindirizza alla home e logga
-            navigate(
-               '/news',
-               {
-                  state: {
-                     isLogged: true,
-                     user: currentUser
-                  }
-               }
-            );
-
+            navigate('/news');
          }
       }
    }
