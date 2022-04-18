@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { routes } from '../routes/routes';
 
 // UTILS
@@ -12,24 +12,18 @@ function Detail() {
    const location = useLocation();
    const params = useParams();
 
-   console.log(navigate);
-   console.log(location);
-   console.log(location?.state?.isLogged);
-   console.log(location?.state?.user);
-   console.log(params);
+   console.log('location', location);
+   console.log('location state isLogged', location?.state?.isLogged);
+   console.log('location state user', location?.state?.user);
+   console.log('params', params);
+   const localStorageLoggedUser = localStorage.getItem('loggedUser');
+   console.log('loggedUser', localStorageLoggedUser);
 
    const newsData = getNews();
    console.log(newsData);
 
-   if (location.state === null || location.state.isLogged === false) {
-      return (
-         <div className='flex-center p-20'>
-            <h2>Sorry, this page is only visible if you're logged in</h2>
-            <p>
-               Please, <Link to={routes.LOGIN}>log in</Link> or <Link to={routes.SIGNUP}>register</Link>
-            </p>
-         </div>
-      );
+   if (localStorageLoggedUser === null) {
+      return <Navigate to="/login" state={{ from: location }} />
    } else {
       let article = newsData[location.state.articleId];
       console.log(article);
@@ -40,12 +34,7 @@ function Detail() {
             <p className='italic'>{article.description}</p>
             <p>{article.content}</p>
             <p>
-               <Link
-                  to={routes.NEWS}
-                  state={{
-                     isLogged: true,
-                     user: location.state.user
-                  }}>
+               <Link to={routes.NEWS}>
                   back to all news
                </Link>
             </p>

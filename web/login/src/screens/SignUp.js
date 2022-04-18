@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { routes } from '../routes/routes';
+
 
 function SignUp() {
 
    const navigate = useNavigate();
+   const location = useLocation()
+   const params = useParams();
+
+   console.log('navigate', navigate);
+   console.log('location', location);
+   console.log('location state isLogged', location?.state?.isLogged);
+   console.log('location state user', location?.state?.user);
+   console.log('params', params);
 
    const localStorageUsers = localStorage.getItem('users');
+   const localStorageLoggedUser = localStorage.getItem('loggedUser');
+   console.log('loggedUser', localStorageLoggedUser);
    let users = localStorageUsers ? JSON.parse(localStorageUsers) : [];
    let currentUser = {};
 
@@ -62,6 +73,7 @@ function SignUp() {
             }
             users.push(currentUser);
             localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('loggedUser', JSON.stringify(currentUser));
             setState({
                firstNameInput: '',
                lastNameInput: '',
@@ -84,19 +96,23 @@ function SignUp() {
       }
    }
 
-   return (
-      <main className='mt-50'>
-         <h1>Sign Up</h1>
-         <input type='text' placeholder='First name...' onChange={saveFirstName} value={state.firstNameInput} />
-         <input type='text' placeholder='Last name...' onChange={saveLastName} value={state.lastNameInput} />
-         <input type='text' placeholder='Email...' onChange={saveEmail} value={state.emailInput} />
-         <input type='password' placeholder='Password...' onChange={savePassword} value={state.passwordInput} />
+   if (localStorageLoggedUser === null) {
+      return (
+         <main className='mt-50'>
+            <h1>Sign Up</h1>
+            <input type='text' placeholder='First name...' onChange={saveFirstName} value={state.firstNameInput} />
+            <input type='text' placeholder='Last name...' onChange={saveLastName} value={state.lastNameInput} />
+            <input type='text' placeholder='Email...' onChange={saveEmail} value={state.emailInput} />
+            <input type='password' placeholder='Password...' onChange={savePassword} value={state.passwordInput} />
 
-         <button onClick={handleSignUp}>Sign Up</button>
+            <button onClick={handleSignUp}>Sign Up</button>
 
-         <p>already registered? Log in <Link to={routes.LOGIN}>here</Link></p>
-      </main>
-   );
+            <p>already registered? Log in <Link to={routes.LOGIN}>here</Link></p>
+         </main>
+      );
+   } else {
+      return <Navigate to="/news" state={{ from: location }} />
+   }
 }
 
 export default SignUp;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { path, routes } from '../routes/routes';
 
 // UTILS
@@ -12,24 +12,18 @@ function News() {
    const location = useLocation()
    const params = useParams();
 
-   console.log(navigate);
-   console.log(location);
-   console.log(location?.state?.isLogged);
-   console.log(location?.state?.user);
-   console.log(params);
+   console.log('location', location);
+   console.log('location state isLogged', location?.state?.isLogged);
+   console.log('location state user', location?.state?.user);
+   console.log('params', params);
+   const localStorageLoggedUser = localStorage.getItem('loggedUser');
+   console.log('loggedUser', localStorageLoggedUser);
 
    const newsData = getNews();
    console.log(newsData);
 
-   if (location.state === null || location.state.isLogged === false) {
-      return (
-         <div className='flex-center p-20'>
-            <h2>Sorry, this page is only visible if you're logged in</h2>
-            <p>
-               Please, <Link to={routes.LOGIN}>log in</Link> or <Link to={routes.SIGNUP}>register</Link>
-            </p>
-         </div>
-      );
+   if (localStorageLoggedUser === null) {
+      return <Navigate to="/login" state={{ from: location }} />
    } else {
       return (
          <main>
@@ -44,13 +38,11 @@ function News() {
                            <li key={`article-${article.id}`}>
                               <h3>{article.title}</h3>
                               <h4>{article.subtitle}</h4>
-                              <p>{article.description} 
+                              <p>{article.description}
                                  <Link
                                     to={path.detail(article.id)}
                                     state={{
-                                       articleId: article.id,
-                                       isLogged: true,
-                                       user: location.state.user
+                                       articleId: article.id
                                     }}>
                                     read more...
                                  </Link>
