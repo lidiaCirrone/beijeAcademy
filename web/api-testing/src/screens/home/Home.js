@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.css';
 
 // UTILS
-import { getPosts, addPosts, updatePosts } from '../../services/posts';
+import { getPosts, addPosts, updatePosts, deletePost } from '../../services/posts';
 
 
 let postsData = [];
@@ -78,13 +78,26 @@ function Home() {
       })
    }
 
+   const deleteItem = (post) => async () => {
+      let loadedPosts = state.posts;
+      let actualId = loadedPosts.indexOf(post);
+      let deleteResponse = await deletePost(`posts/${actualId}`);
+      loadedPosts.splice(actualId, 1);
+      updateLoadedPosts(loadedPosts);
+      setState({
+         ...state,
+         posts: loadedPosts
+      })
+   }
+
    const renderArticles = (post, key) => {
       return (
-         <div key={`post-${key}`}>
+         <div key={`post-${key}`} className={'item-container'}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
             <h6>userId: {post.userId} - id: {post.id}</h6>
-            <button onClick={editPost(post)} className={'edit-button'}>Edit post</button>
+            <button onClick={editPost(post)}>Edit post</button>
+            <button onClick={deleteItem(post)}>Delete post</button>
          </div>
       )
    }

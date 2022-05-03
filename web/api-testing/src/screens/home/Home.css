@@ -8,14 +8,13 @@ main {
    justify-content: center;
    font-size: calc(10px + 2vmin);
    color: white;
-   padding: 3rem;
+   padding: 4rem;
 }
 
 .add-button {
-   margin-bottom: 2rem;
+   margin-bottom: 4rem;
 }
 
-.edit-button {
-   display: block;
-   margin: 1rem;
+.item-container {
+   margin-bottom: 4rem;
 }
