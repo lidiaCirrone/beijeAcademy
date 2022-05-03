@@ -25,6 +25,7 @@ function Home() {
 
    const loadPosts = async () => {
       let apiGetPostsResponse = await getPosts();
+      console.log(apiGetPostsResponse);
       updateLoadedPosts(apiGetPostsResponse);
       setState({
          ...state,
@@ -45,48 +46,41 @@ function Home() {
             }
          }
       )
-      let loadedPosts = state.posts;
-      loadedPosts.push(addResponse);
-      updateLoadedPosts(loadedPosts);
+      postsData.push(addResponse);
       setState({
          ...state,
-         posts: loadedPosts
+         posts: postsData
       })
    }
 
-   const editPost = (post) => async () => {
-      let editResponse = await updatePosts(`posts/${post.id}`,
-         JSON.stringify({
-            id: post.id,
-            title: 'foo2',
-            body: 'bar2',
-            userId: 2,
-         }),
+   const editPost = (post, key) => async () => {
+      let editedItem = {
+         id: post.id,
+         title: 'foo2',
+         body: 'bar2',
+         userId: 2,
+      };
+      let editResponse = await updatePosts(`posts/${key}`,
+         JSON.stringify(editedItem),
          {
             headers: {
                'Content-type': 'application/json; charset=UTF-8',
             }
          }
       )
-      let loadedPosts = state.posts;
-      let actualId = loadedPosts.indexOf(post);
-      loadedPosts[actualId] = editResponse;
-      updateLoadedPosts(loadedPosts);
+      postsData[key] = editedItem;
       setState({
          ...state,
-         posts: loadedPosts
+         posts: postsData
       })
    }
 
-   const deleteItem = (post) => async () => {
-      let loadedPosts = state.posts;
-      let actualId = loadedPosts.indexOf(post);
-      let deleteResponse = await deletePost(`posts/${actualId}`);
-      loadedPosts.splice(actualId, 1);
-      updateLoadedPosts(loadedPosts);
+   const deleteItem = (key) => async () => {
+      let deleteResponse = await deletePost(`posts/${key}`);
+      postsData.splice(key, 1);
       setState({
          ...state,
-         posts: loadedPosts
+         posts: postsData
       })
    }
 
@@ -96,8 +90,8 @@ function Home() {
             <h3>{post.title}</h3>
             <p>{post.body}</p>
             <h6>userId: {post.userId} - id: {post.id}</h6>
-            <button onClick={editPost(post)}>Edit post</button>
-            <button onClick={deleteItem(post)}>Delete post</button>
+            <button onClick={editPost(post, key)}>Edit post</button>
+            <button onClick={deleteItem(key)}>Delete post</button>
          </div>
       )
    }
