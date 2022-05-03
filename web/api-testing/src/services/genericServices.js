@@ -26,4 +26,14 @@ const apiPost = async (resource, obj, config) => {
       })
 }
 
-export { apiGet, apiPost }
+const apiPut = async (resource, obj, config) => {
+   return axiosInstance.put(resource, obj, config)
+      .then((response) => {
+         return response?.data;
+      })
+      .catch((error) => {
+         return error;
+      })
+}
+
+export { apiGet, apiPost, apiPut }
