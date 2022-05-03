@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// COMPONENTS
-
 // STYLES
 import './Home.css';
 
+// UTILS
+import { getPosts, addPosts } from '../../services/posts';
+
+
+
+let postsData = [];
 
 function Home() {
 
@@ -14,31 +18,24 @@ function Home() {
    });
 
    useEffect(() => {
-      axios.get('https://jsonplaceholder.typicode.com/posts')
-         .then(function (response) {
-            setState({
-               ...state,
-               posts: response.data
-            })
-            console.log(response.data);
-         })
-         .catch(function (error) {
-            // handle error
-            console.log(error);
-         })
+      loadPosts();
    }, [])
 
-   const renderArticles = (post, key) => {
-      return (
-         <div key={`post-${key}`}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-         </div>
-      )
+   const updatePosts = (newData) => {
+      postsData = newData;
    }
 
-   const addPost = () => {
-      axios.post('https://jsonplaceholder.typicode.com/posts',
+   const loadPosts = async () => {
+      let apiGetPostsResponse = await getPosts();
+      updatePosts(apiGetPostsResponse);
+      setState({
+         ...state,
+         posts: apiGetPostsResponse
+      })
+   }
+
+   const newPost = async () => {
+      let apiAddpostsResponse = await addPosts('posts',
          JSON.stringify({
             title: 'foo',
             body: 'bar',
@@ -50,49 +47,31 @@ function Home() {
             }
          }
       )
-         .then(function (response) {
-            console.log(response.data);
-            let updatedPosts = state.posts;
-            updatedPosts.push(response.data);
-            setState({
-               ...state,
-               posts: updatedPosts
-            })
-         })
-         .catch(function (error) {
-            console.log(error);
-         });
-   }
-
-   const asyncAddPost = async () => {
-      let posts = await axios.post('https://jsonplaceholder.typicode.com/posts',
-         JSON.stringify({
-            title: 'foo2',
-            body: 'bar2',
-            userId: 2,
-         }),
-         {
-            headers: {
-               'Content-type': 'application/json; charset=UTF-8',
-            }
-         }
-      )
-      console.log(posts.data);
-      let updatedPosts = state.posts;
-      updatedPosts.push(posts.data);
+      let loadedPosts = state.posts;
+      loadedPosts.push(apiAddpostsResponse);
+      updatePosts(loadedPosts);
       setState({
          ...state,
-         posts: updatedPosts
+         posts: loadedPosts
       })
    }
 
    return (
       <main>
-         <button onClick={addPost}>Add post (then & catch)</button>
-         <button onClick={asyncAddPost}>Add post (async await)</button>
+         <button onClick={newPost} className={'add-button'}>Add post</button>
          {state.posts.map(renderArticles)}
       </main>
    );
+}
+
+const renderArticles = (post, key) => {
+   return (
+      <div key={`post-${key}`}>
+         <h3>{post.title}</h3>
+         <p>{post.body}</p>
+         <h6>{post.userId} - {post.id}</h6>
+      </div>
+   )
 }
 
 export default Home;
