@@ -1,56 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-// styles
+import FullCalendar from '@fullcalendar/react' // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+
 import './Home.css';
 
-// utils
-import { colorsArray } from '../../utils';
+const Home = () => {
 
-
-function Home() {
-
-   const [state, setState] = useState({
-      data: []
-   })
-
-   useEffect(() => {
-      setState({
-         ...state,
-         data: colorsArray
-      })
-   }, [])
-
-   const setQuery = (e) => {
-      let filteredArray = colorsArray;
-      if (e.target.value.length > 0) {
-         filteredArray = filteredArray.filter(item => item.color.startsWith(e.target.value));
-      }
-      setState({
-         ...state,
-         data: filteredArray
-      })
-   }
+   let eventsArray = [
+      { title: 'Struttura a', start: '2022-05-03', end: '2022-05-07', backgroundColor: 'green' },
+      { title: 'Struttura b', start: '2022-05-05', end: '2022-05-15', backgroundColor: 'red' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' }
+   ]
 
    return (
-      <div className='container'>
-         <main>
-            <input type={'text'} onChange={setQuery} placeholder={'search...'} />
-            <ul>
-               {state.data.map(renderData)}
-            </ul>
-         </main>
+      <div>
+         <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            // weekends={false}
+            // eventColor='green'
+            /* events={[
+               eventsArray.map(item => {
+                  return ({
+                     title: item.title,
+                     start: item.start,
+                     end: item.end
+                  })
+               })
+            ]} */
+            events={[
+               { title: 'Struttura a', start: '2022-05-03', end: '2022-05-07', backgroundColor: 'green' },
+               { title: 'Struttura b', start: '2022-05-05', end: '2022-05-15', backgroundColor: 'red' },
+               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+               { title: 'Struttura d', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'blue' },
+               { title: 'Struttura d', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'blue' },
+               { title: 'Struttura e', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'yellow' },
+               { title: 'Struttura c', start: '2022-05-14', end: '2022-05-27', backgroundColor: 'purple' },
+               { title: 'Struttura f', start: '2022-05-16', end: '2022-05-22', backgroundColor: 'pink' },
+               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
+               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' }
+            ]}
+         />
       </div>
-   );
-}
-
-const renderData = (item, key) => {
-   return (
-      <li key={`item-${key}`} style={{
-         color: item.color
-      }}>
-         {item.color}
-      </li>
    )
 }
+
 
 export default Home;

@@ -1,6 +1,3 @@
-.container {
-   min-height: 100vh;
-   display: flex;
-   align-items: center;
-   justify-content: center;
+.item11 .fc-event-main {
+   color: #000;
 }
