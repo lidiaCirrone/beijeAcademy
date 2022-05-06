@@ -1,57 +1,23 @@
 import React from 'react';
+import Login from '../../Login';
 
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 
-import './Home.css';
+function Home() {
 
-const Home = () => {
+   const data = [0, 1, 2, 5, 6, 7];
 
-   let eventsArray = [
-      { title: 'Struttura a', start: '2022-05-03', end: '2022-05-07', backgroundColor: 'green' },
-      { title: 'Struttura b', start: '2022-05-05', end: '2022-05-15', backgroundColor: 'red' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-      { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' }
-   ]
+   const sendEventCustom = () => {
+      document.dispatchEvent(new CustomEvent('on_send_message_button', { // dev'essere una stringa univoca
+         detail: data
+      }));
+   }
 
    return (
-      <div>
-         <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            // weekends={false}
-            // eventColor='green'
-            /* events={[
-               eventsArray.map(item => {
-                  return ({
-                     title: item.title,
-                     start: item.start,
-                     end: item.end
-                  })
-               })
-            ]} */
-            events={[
-               { title: 'Struttura a', start: '2022-05-03', end: '2022-05-07', backgroundColor: 'green' },
-               { title: 'Struttura b', start: '2022-05-05', end: '2022-05-15', backgroundColor: 'red' },
-               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-               { title: 'Struttura d', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'blue' },
-               { title: 'Struttura d', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'blue' },
-               { title: 'Struttura e', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'yellow' },
-               { title: 'Struttura c', start: '2022-05-14', end: '2022-05-27', backgroundColor: 'purple' },
-               { title: 'Struttura f', start: '2022-05-16', end: '2022-05-22', backgroundColor: 'pink' },
-               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' },
-               { title: 'Struttura c', start: '2022-05-10', end: '2022-05-22', backgroundColor: 'purple' }
-            ]}
-         />
-      </div>
+      <>
+         <button onClick={sendEventCustom}>Send Event</button>
+         <Login />
+      </>
    )
 }
-
 
 export default Home;
