@@ -1,22 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Login from '../../Login';
+
+// styles
+import './Home.css';
+
+// utils
+import eventsBus from '../../utils/eventsBus';
 
 
 function Home() {
 
-   const data = [0, 1, 2, 5, 6, 7];
+   const [state, setState] = useState({
+      data: ''
+   })
+
+   const saveData = (e) => {
+      setState({
+         data: e.target.value
+      })
+   }
 
    const sendEventCustom = () => {
-      document.dispatchEvent(new CustomEvent('on_send_message_button', { // dev'essere una stringa univoca
-         detail: data
-      }));
+      eventsBus.dispatch('on_send_message_button', state.data);
    }
 
    return (
-      <>
+      <main>
+         <input type="text" onChange={saveData} value={state.data} />
          <button onClick={sendEventCustom}>Send Event</button>
          <Login />
-      </>
+      </main>
    )
 }
 

@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 
+// utils
+import eventsBus from './utils/eventsBus';
+
 
 function Login() {
 
    useEffect(() => {
-      let listener = document.addEventListener('on_send_message_button', (e) => {
-         e.stopImmediatePropagation();
-         console.log(e.detail);
+      eventsBus.on('on_send_message_button', (data) => {
+         console.log(data);
       }, false);
 
       return () => {
-         document.removeEventListener(listener);
+         eventsBus.remove('on_send_message_button');
       }
 
    }, [])
