@@ -1,12 +1,14 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 // DUCKS
-import tokenDuck from './ducks/tokenDuck';
+import categoriesDuck from './ducks/categoriesDuck';
 import colorDuck from './ducks/colorDuck';
+import tokenDuck from './ducks/tokenDuck';
 
 const rootReducer = combineReducers({
-   tokenDuck,
-   colorDuck
+   categoriesDuck,
+   colorDuck,
+   tokenDuck
 })
 
 export default rootReducer;
