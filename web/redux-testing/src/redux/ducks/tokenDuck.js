@@ -23,9 +23,7 @@ export function initToken() {
 }
 
 const INIT_STATE = {
-   token: {
-      token: null
-   }
+   token: null
 }
 
 // Reducer

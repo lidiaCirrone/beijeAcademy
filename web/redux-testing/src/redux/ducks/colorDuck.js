@@ -23,9 +23,7 @@ export function initColor() {
 }
 
 const INIT_STATE = {
-   token: {
-      color: 'black'
-   }
+   color: 'black'
 }
 
 // Reducer
