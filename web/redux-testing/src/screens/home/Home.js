@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setCategory } from '../../redux/ducks/categoriesDuck';
 
+// Components
+import ResultsLabel from '../../components/hookComponents/resultsLabel/ResultsLabel';
+
 // STYLES
 import './Home.css';
 
@@ -21,11 +24,16 @@ function Home(props) {
       navigate('/results');
    }
 
+   const changeCategory = () => {
+      props.dispatch(setCategory('changed'));
+   }
+
    return (
       <main>
          <h1>Home</h1>
-         {/* Category inside Home: {props.categoriesDuck.category} */}
-         <button onClick={goToResults}>Go to Results</button>
+         <button onClick={goToResults}>Go to Results and set Category to Test</button>
+         <button onClick={changeCategory}>Change category</button>
+         <ResultsLabel />
       </main>
    );
 }
