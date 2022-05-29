@@ -1,41 +1,29 @@
 import React, { useEffect } from 'react';
-
-import { useNavigate } from 'react-router-dom';
-
 import { connect } from 'react-redux';
-import { setCategory } from '../../redux/ducks/categoriesDuck';
-
-// Components
-import ResultsLabel from '../../components/hookComponents/resultsLabel/ResultsLabel';
-
-// STYLES
+import Input from '../../components/hookComponents/Input';
+import { initUser } from '../../redux/ducks/userDuck';
 import './Home.css';
 
 
 function Home(props) {
 
-   const navigate = useNavigate();
-
    useEffect(() => {
-      props.dispatch(setCategory('test'));
+      return () => {
+         initUser();
+      }
    })
-
-   const goToResults = () => {
-      navigate('/results');
-   }
-
-   const changeCategory = () => {
-      props.dispatch(setCategory('changed'));
-   }
 
    return (
       <main>
-         <h1>Home</h1>
-         <button onClick={goToResults}>Go to Results and set Category to Test</button>
-         <button onClick={changeCategory}>Change category</button>
-         <ResultsLabel />
+         <Input />
+         <p>The username you've chosen is:</p>
+         <p>{props.userDuck.user}</p>
       </main>
    );
 }
 
-export default connect()(Home);
+const mapStateToProps = state => ({
+   userDuck: state.userDuck
+})
+
+export default connect(mapStateToProps)(Home);
