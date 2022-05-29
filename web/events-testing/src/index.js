@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Home from './screens/home/Home';
+
 import './index.css';
-import 'antd/dist/antd.css';
+import Home from './screens/home/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Home />
+   <Home />
 );
