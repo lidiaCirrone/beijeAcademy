@@ -1,7 +1,8 @@
+import React, {FunctionComponent} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+const App: FunctionComponent = () => {
    return (
       <View style={styles.container}>
          <Text style={styles.sentence}>Open up App.tsx to start working on your app!</Text>
@@ -22,3 +23,5 @@ const styles = StyleSheet.create({
       fontSize: 24
    }
 });
+
+export default App;
