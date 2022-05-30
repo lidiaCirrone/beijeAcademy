@@ -19,8 +19,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
    },
    sentence: {
-      color: '#fff',
-      fontSize: 24
+      color: '#fff'
    }
 });
 
