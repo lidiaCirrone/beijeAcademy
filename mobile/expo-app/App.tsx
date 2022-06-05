@@ -39,13 +39,11 @@ const App: FunctionComponent = () => {
       let currentDatetime = new Date().toLocaleString('it-IT', {
          dateStyle: 'full'
       });
-      console.log(newTodos);
       newTodos.push({
          key: counter,
          content: state.text,
          datetime: `— ${currentDatetime}`
       });
-      console.log(newTodos);
       setState({
          ...state,
          text: '',
@@ -54,9 +52,13 @@ const App: FunctionComponent = () => {
       counter = counter + 1;
    }
 
-   const deleteTodo = (): void => {
+   const deleteTodo = (id: number) => (): void => {
       let newTodos = state.todos;
-      console.log(newTodos);
+      newTodos.splice(id, 1);
+      setState({
+         ...state,
+         todos: newTodos
+      })
    }
 
    const renderItem: ListRenderItem<Todo> = ({ item }: ListRenderItemInfo<Todo>) => {
@@ -65,7 +67,7 @@ const App: FunctionComponent = () => {
          <View style={styleApp.todoContainer}>
             <View style={styleApp.todoHeader}>
                <Text style={styleApp.todoDatetime}>{item.datetime}</Text>
-               <TouchableOpacity onPress={deleteTodo} >
+               <TouchableOpacity onPress={deleteTodo(item.key)} >
                   <Image source={require('./assets/bin.png')} style={styleApp.binIcon} />
                </TouchableOpacity>
             </View>
