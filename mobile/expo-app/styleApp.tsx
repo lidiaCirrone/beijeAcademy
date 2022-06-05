@@ -6,10 +6,25 @@ export default StyleSheet.create(
          flex: 1,
          backgroundColor: '#39bdff',
          alignItems: 'center',
-         justifyContent: 'center',
+         justifyContent: 'space-between',
+         paddingTop: 30,
+         paddingBottom: 30
       },
-      sentence: {
-         color: '#fff'
+      title: {
+         color: '#fff',
+         fontWeight: 'bold',
+         fontSize: 20,
+         marginBottom: 30
+      },
+      rowContainer: {
+         flexDirection: 'row',
+         marginTop: 20
+      },
+      input: {
+         backgroundColor: '#fff',
+         borderRadius: 5,
+         padding: 10,
+         marginRight: 10
       }
    }
 )
