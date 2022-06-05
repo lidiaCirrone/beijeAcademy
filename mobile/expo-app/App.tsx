@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 
 // components
-import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, TextInput, FlatList, TouchableOpacity, ListRenderItem, ListRenderItemInfo } from 'react-native';
+import { Button, Text, View, TextInput, FlatList, Image, TouchableOpacity, ListRenderItem, ListRenderItemInfo } from 'react-native';
 
 // styles
 import styleApp from './styleApp';
@@ -10,12 +9,13 @@ import styleApp from './styleApp';
 
 interface State {
    text: string;
-   todos: Array<ToDo>;
+   todos: Array<Todo>;
 }
 
-interface ToDo {
+interface Todo {
    key: number;
    content: string;
+   datetime: string;
 }
 
 let counter: number = 0;
@@ -34,12 +34,16 @@ const App: FunctionComponent = () => {
       })
    }
 
-   const createToDo = (): void => {
+   const addTodo = (): void => {
       let newTodos = state.todos;
+      let currentDatetime = new Date().toLocaleString('it-IT', {
+         dateStyle: 'full'
+      });
       console.log(newTodos);
       newTodos.push({
          key: counter,
-         content: state.text
+         content: state.text,
+         datetime: `— ${currentDatetime}`
       });
       console.log(newTodos);
       setState({
@@ -50,31 +54,36 @@ const App: FunctionComponent = () => {
       counter = counter + 1;
    }
 
-   const renderItem: ListRenderItem<ToDo> = ({ item }: ListRenderItemInfo<ToDo>) => {
-      // const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-      // const color = item.id === selectedId ? 'white' : 'black';
+   const deleteTodo = (): void => {
+      let newTodos = state.todos;
+      console.log(newTodos);
+   }
+
+   const renderItem: ListRenderItem<Todo> = ({ item }: ListRenderItemInfo<Todo>) => {
 
       return (
-         <TouchableOpacity
-         // onPress={onPress} 
-         // style={[styles.item, backgroundColor]}
-         >
-            <Text
-            // style={[styles.title, textColor]}
-            >{item.content}</Text>
-         </TouchableOpacity>
+         <View style={styleApp.todoContainer}>
+            <View style={styleApp.todoHeader}>
+               <Text style={styleApp.todoDatetime}>{item.datetime}</Text>
+               <TouchableOpacity onPress={deleteTodo} >
+                  <Image source={require('./assets/bin.png')} style={styleApp.binIcon} />
+               </TouchableOpacity>
+            </View>
+            <View>
+               <Text>{item.content}</Text>
+            </View>
+         </View>
       );
    };
 
    return (
       <View style={styleApp.container}>
-         <Text style={styleApp.title}>Your ToDos</Text>
+         <Text style={styleApp.title}>Your Tasks</Text>
          <FlatList data={state.todos} renderItem={renderItem} />
          <View style={styleApp.rowContainer}>
-            <TextInput style={styleApp.input} onChangeText={setText} value={state.text} />
-            <Button title={'Create'} onPress={createToDo} color={'#767676'} />
+            <TextInput style={styleApp.input} onChangeText={setText} value={state.text} placeholder={'Write some text...'} />
+            <Button title={'Add'} onPress={addTodo} color={'#767676'} />
          </View>
-         <StatusBar style="auto" />
       </View>
    );
 }
