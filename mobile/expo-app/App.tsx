@@ -66,7 +66,6 @@ const App: FunctionComponent = () => {
          content: state.text,
          datetime: `— ${currentDatetime}`
       });
-      if (updatedTodos.length == 0) counter = 0;
       await AsyncStorage.setItem('todos', JSON.stringify(updatedTodos));
       setState({
          ...state,
@@ -80,6 +79,7 @@ const App: FunctionComponent = () => {
       let updatedTodos = state.todos;
       let todoIndex = updatedTodos.findIndex(todo => todo.key === key);
       updatedTodos.splice(todoIndex, 1);
+      if (updatedTodos.length === 0) counter = 0;
       await AsyncStorage.setItem('todos', JSON.stringify(updatedTodos));
       setState({
          ...state,
