@@ -5,7 +5,7 @@ import { Camera, CameraType } from 'expo-camera';
 
 interface State {
    hasPermission: boolean;
-   typeOfCamera: string;
+   typeOfCamera: CameraType;
 }
 
 const initialState: State = {
@@ -16,7 +16,8 @@ const initialState: State = {
 const App: FunctionComponent = () => {
 
    const [state, setState] = useState<State>(initialState);
-   let camera: Camera;
+   
+   let camera: Camera | null;
 
    const requestCameraPerm = async (): Promise<void> => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -44,46 +45,18 @@ const App: FunctionComponent = () => {
 
    return (
       <View style={styles.container}>
-         <Text>Camera Testing</Text>
          {state.hasPermission &&
             <>
-               <View
-                  style={{
-                     position: 'absolute',
-                     bottom: 0,
-                     flexDirection: 'row',
-                     flex: 1,
-                     width: '100%',
-                     padding: 20,
-                     justifyContent: 'space-between'
-                  }}
-               >
-                  <View
-                     style={{
-                        alignSelf: 'center',
-                        flex: 1,
-                        alignItems: 'center'
-                     }}
-                  >
-                     <TouchableOpacity
-                        onPress={__takePicture}
-                        style={{
-                           width: 70,
-                           height: 70,
-                           bottom: 0,
-                           borderRadius: 50,
-                           backgroundColor: '#fff'
-                        }}
-                     />
-                  </View>
-               </View>
-               <Camera type={state.typeOfCamera} ref={(r) => {
-                  camera = r
-               }}>
-                  <View>
-                     <TouchableOpacity
-                        onPress={switchCameraType}>
+               <Camera
+                  type={state.typeOfCamera}
+                  ref={(r) => { camera = r }}
+                  style={styles.cameraContainer}>
+                  <View style={styles.touchablesContainer}>
+                     <TouchableOpacity onPress={switchCameraType}>
                         <Text>Flip</Text>
+                     </TouchableOpacity>
+                     <TouchableOpacity onPress={__takePicture}>
+                        <Text>Take picture</Text>
                      </TouchableOpacity>
                   </View>
                </Camera>
@@ -96,10 +69,24 @@ const App: FunctionComponent = () => {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
+      alignSelf: 'stretch',
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
    },
+   cameraContainer: {
+      flex: 1,
+      alignSelf: 'stretch'
+   },
+   touchablesContainer: {
+      position: 'absolute',
+      bottom: 0,
+      flexDirection: 'row',
+      flex: 1,
+      width: '100%',
+      padding: 20,
+      justifyContent: 'space-between'
+   }
 });
 
 export default App;
