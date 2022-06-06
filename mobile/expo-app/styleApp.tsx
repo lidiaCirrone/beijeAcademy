@@ -16,6 +16,9 @@ export default StyleSheet.create(
          fontSize: 24,
          marginBottom: 30
       },
+      toDoList: {
+         alignSelf: 'stretch'
+      },
       todoContainer: {
          backgroundColor: '#fff',
          borderRadius: 5,

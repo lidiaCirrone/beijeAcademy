@@ -81,7 +81,7 @@ const App: FunctionComponent = () => {
    return (
       <View style={styleApp.container}>
          <Text style={styleApp.title}>Your Tasks</Text>
-         <FlatList data={state.todos} renderItem={renderItem} />
+         <FlatList data={state.todos} renderItem={renderItem} style={styleApp.toDoList} />
          <View style={styleApp.rowContainer}>
             <TextInput style={styleApp.input} onChangeText={setText} value={state.text} placeholder={'Write some text...'} />
             <Button title={'Add'} onPress={addTodo} color={'#767676'} />
