@@ -1,22 +1,29 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+
+// modules
+import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
+
+// styles
+import styleApp from './styleApp';
 
 
 interface State {
    hasPermission: boolean;
    typeOfCamera: CameraType;
+   photos: Array<CameraCapturedPicture>;
 }
 
 const initialState: State = {
    hasPermission: false,
-   typeOfCamera: CameraType.back
+   typeOfCamera: CameraType.back,
+   photos: []
 }
 
 const App: FunctionComponent = () => {
 
    const [state, setState] = useState<State>(initialState);
-   
+
    let camera: Camera | null;
 
    const requestCameraPerm = async (): Promise<void> => {
@@ -37,56 +44,55 @@ const App: FunctionComponent = () => {
       });
    }
 
-   const __takePicture = async () => {
+   const takePicture = async () => {
       if (!camera) return;
       const photo = await camera.takePictureAsync();
       console.log(photo);
+      let updatedPhotos = state.photos;
+      updatedPhotos.push(photo);
+      setState({
+         ...state,
+         photos: updatedPhotos
+      })
+   }
+
+   const renderPhotos = (item: CameraCapturedPicture, key: number) => {
+      console.log(item.uri);
+      return (
+         <Image
+            key={key}
+            style={styleApp.photoImage}
+            source={{ uri: item.uri }}
+         />
+      )
    }
 
    return (
-      <View style={styles.container}>
+      <View style={styleApp.container}>
          {state.hasPermission &&
             <>
                <Camera
                   type={state.typeOfCamera}
                   ref={(r) => { camera = r }}
-                  style={styles.cameraContainer}>
-                  <View style={styles.touchablesContainer}>
+                  style={styleApp.cameraContainer}>
+                  <View style={styleApp.touchablesContainer}>
                      <TouchableOpacity onPress={switchCameraType}>
                         <Text>Flip</Text>
                      </TouchableOpacity>
-                     <TouchableOpacity onPress={__takePicture}>
+                     <TouchableOpacity onPress={takePicture}>
                         <Text>Take picture</Text>
                      </TouchableOpacity>
                   </View>
                </Camera>
+               <View style={styleApp.photosContainer}>
+                  {state.photos.length > 0 &&
+                     state.photos.map(renderPhotos)
+                  }
+               </View>
             </>
          }
       </View>
    );
 }
-
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      alignSelf: 'stretch',
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-   },
-   cameraContainer: {
-      flex: 1,
-      alignSelf: 'stretch'
-   },
-   touchablesContainer: {
-      position: 'absolute',
-      bottom: 0,
-      flexDirection: 'row',
-      flex: 1,
-      width: '100%',
-      padding: 20,
-      justifyContent: 'space-between'
-   }
-});
 
 export default App;
