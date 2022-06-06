@@ -1,7 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 // components
 import { Button, Text, View, TextInput, FlatList, Image, TouchableOpacity, ListRenderItem, ListRenderItemInfo } from 'react-native';
+
+// modules
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // styles
 import styleApp from './styleApp';
@@ -27,37 +30,60 @@ const App: FunctionComponent = () => {
       todos: []
    });
 
-   const setText = (value: string): void => {
+   const getStorage: Function = async (): Promise<void> => {
+      let storageTodos = await AsyncStorage.getItem('todos');
+      storageTodos = storageTodos !== null ? JSON.parse(storageTodos) : [];
+      let startingKey = 0;
+      if (storageTodos.length > 0) {
+         let lastTodo = storageTodos.length - 1;
+         startingKey = storageTodos[lastTodo].key + 1;
+      }
+      counter = startingKey;
+      setState({
+         ...state,
+         todos: storageTodos
+      })
+   }
+
+   useEffect(() => {
+      getStorage();
+   }, [])
+
+   const setText: Function = (value: string): void => {
       setState({
          ...state,
          text: value
       })
    }
 
-   const addTodo = (): void => {
-      let newTodos = state.todos;
+   const addTodo: Function = async (): Promise<void> => {
+      let updatedTodos = state.todos;
       let currentDatetime = new Date().toLocaleString('it-IT', {
          dateStyle: 'full'
       });
-      newTodos.push({
+      updatedTodos.push({
          key: counter,
          content: state.text,
          datetime: `— ${currentDatetime}`
       });
+      if (updatedTodos.length == 0) counter = 0;
+      await AsyncStorage.setItem('todos', JSON.stringify(updatedTodos));
       setState({
          ...state,
          text: '',
-         todos: newTodos
+         todos: updatedTodos
       })
       counter = counter + 1;
    }
 
-   const deleteTodo = (id: number) => (): void => {
-      let newTodos = state.todos;
-      newTodos.splice(id, 1);
+   const deleteTodo: Function = (key: number) => async (): Promise<void> => {
+      let updatedTodos = state.todos;
+      let todoIndex = updatedTodos.findIndex(todo => todo.key === key);
+      updatedTodos.splice(todoIndex, 1);
+      await AsyncStorage.setItem('todos', JSON.stringify(updatedTodos));
       setState({
          ...state,
-         todos: newTodos
+         todos: updatedTodos
       })
    }
 
