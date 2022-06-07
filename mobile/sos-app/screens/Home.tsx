@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
-import { Button, FlatList, ListRenderItem, ListRenderItemInfo, Text, View } from 'react-native';
+import { Button, FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 // styles
@@ -27,11 +27,13 @@ interface State {
    hasLocationPermission: boolean;
    mapCoordinates?: MapViewProps;
    markerCoordinates?: MarkerProps;
+   contactsModalVisible: boolean;
    selectedContacts: [];
 }
 
 const initialState: State = {
    hasLocationPermission: false,
+   contactsModalVisible: false,
    selectedContacts: []
 }
 
@@ -81,7 +83,18 @@ const Home: FunctionComponent = () => {
       _requestContactsPermission();
    }, [])
 
+   const toggleModal = () => {
+      setState({
+         ...state,
+         contactsModalVisible: !state.contactsModalVisible
+      });
+   }
+
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
+
+      // console.log(item);
+
+      let initials = item.name[0];
 
       return (
          // <View style={styleApp.todoContainer}>
@@ -95,45 +108,88 @@ const Home: FunctionComponent = () => {
          //       <Text>{item.content}</Text>
          //    </View>
          // </View>
-         <View>
-            <Text>{item.name}</Text>
+         <View style={styleApp.contactListItem}>
+            <View style={styleApp.leftSided}>
+
+               <View style={styleApp.nameCircle}>
+                  <Text style={styleApp.nameCircleText}>
+                     {true ? initials : '✓'}
+                  </Text>
+               </View>
+
+               <View>
+                  <Text>{item.name}</Text>
+               </View >
+            </View >
             {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
-               < Text > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
+               < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
             }
-         </View >
+            {/* <View>
+               <Text>check</Text>
+            </View> */}
+         </View>
       );
    };
 
    if (state.hasLocationPermission) {
 
       return (
-         <View style={styleApp.screenContainer}>
-            {/* <ScrollView> */}
+         <>
+            <View style={styleApp.screenContainer}>
+               {/* <ScrollView> */}
 
-            <View style={styleApp.sectionContainer}>
-               <Text style={styleApp.heading}>Your location</Text>
-               <MapView
-                  style={styleApp.map}
-                  region={state.mapCoordinates}
-               >
-                  <Marker coordinate={state.markerCoordinates} title='You' />
-               </MapView>
+               <View style={styleApp.sectionContainer}>
+                  <Text style={styleApp.heading}>Your location</Text>
+                  <MapView
+                     style={styleApp.map}
+                     region={state.mapCoordinates}
+                  >
+                     <Marker coordinate={state.markerCoordinates} title='You' />
+                  </MapView>
+               </View>
+
+               <View style={styleApp.sectionContainer}>
+                  <Text style={styleApp.heading}>Your contacts</Text>
+                  <Pressable style={[styleApp.button, styleApp.buttonOpen]} onPress={toggleModal}>
+                     <Text style={styleApp.textStyle}>Select Contacts</Text>
+                  </Pressable>
+                  {(state.selectedContacts && state.selectedContacts.length > 0) &&
+                     <Text>Selected contacts here</Text>
+                     // <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
+                  }
+               </View>
+
+
+               <View style={styleApp.sectionContainer}>
+                  <Button title='Ask for help' />
+               </View>
+
+               {/* </ScrollView> */}
             </View>
 
-            <View style={styleApp.sectionContainer}>
-               <Text style={styleApp.heading}>Your contacts</Text>
-               {(allContacts && allContacts.length > 0) &&
-                  <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
-               }
+            <View style={styleApp.flexOne}>
+               <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={state.contactsModalVisible}
+                  onRequestClose={toggleModal}>
+                  <View style={styleApp.flexOne}>
+                     <View style={styleApp.modalView}>
+                        <Text style={styleApp.modalText}>Choose your contacts</Text>
+                        {(allContacts && allContacts.length > 0) &&
+                           <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
+                        }
+                        <Pressable
+                           style={[styleApp.button, styleApp.buttonClose]}
+                           onPress={toggleModal}>
+                           <Text style={styleApp.textStyle}>Confirm</Text>
+                        </Pressable>
+                     </View>
+                  </View>
+               </Modal>
             </View>
 
-
-            <View style={styleApp.sectionContainer}>
-               <Button title='Ask for help' />
-            </View>
-
-            {/* </ScrollView> */}
-         </View>
+         </>
       )
 
    } else {
