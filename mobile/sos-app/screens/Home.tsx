@@ -36,7 +36,7 @@ const Home: FunctionComponent = () => {
 
    const [state, setState] = useState<State>(initialState);
 
-   const requestLocationPermission = async (): Promise<void> => {
+   const _requestLocationPermission = async (): Promise<void> => {
 
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') return;
@@ -62,7 +62,7 @@ const Home: FunctionComponent = () => {
       })
    }
    useEffect(() => {
-      requestLocationPermission()
+      _requestLocationPermission()
    }, [])
 
    if (state.hasLocationPermission) {
