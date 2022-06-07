@@ -30,7 +30,7 @@ const App: FunctionComponent = () => {
       todos: []
    });
 
-   const getStorage: Function = async (): Promise<void> => {
+   const _getStorage = async (): Promise<void> => {
       let storageTodos = await AsyncStorage.getItem('todos');
       storageTodos = storageTodos !== null ? JSON.parse(storageTodos) : [];
       let startingKey = 0;
@@ -46,17 +46,17 @@ const App: FunctionComponent = () => {
    }
 
    useEffect(() => {
-      getStorage();
+      _getStorage();
    }, [])
 
-   const setText: Function = (value: string): void => {
+   const setText = (value: string): void => {
       setState({
          ...state,
          text: value
       })
    }
 
-   const addTodo: Function = async (): Promise<void> => {
+   const _addTodo = async (): Promise<void> => {
       let updatedTodos = state.todos;
       let currentDatetime = new Date().toLocaleString('it-IT', {
          dateStyle: 'full'
@@ -75,7 +75,7 @@ const App: FunctionComponent = () => {
       counter = counter + 1;
    }
 
-   const deleteTodo: Function = (key: number) => async (): Promise<void> => {
+   const _deleteTodo = (key: number) => async (): Promise<void> => {
       let updatedTodos = state.todos;
       let todoIndex = updatedTodos.findIndex(todo => todo.key === key);
       updatedTodos.splice(todoIndex, 1);
@@ -93,7 +93,7 @@ const App: FunctionComponent = () => {
          <View style={styleApp.todoContainer}>
             <View style={styleApp.todoHeader}>
                <Text style={styleApp.todoDatetime}>{item.datetime}</Text>
-               <TouchableOpacity onPress={deleteTodo(item.key)} >
+               <TouchableOpacity onPress={_deleteTodo(item.key)} >
                   <Image source={require('./assets/bin.png')} style={styleApp.binIcon} />
                </TouchableOpacity>
             </View>
@@ -110,7 +110,7 @@ const App: FunctionComponent = () => {
          <FlatList data={state.todos} renderItem={renderItem} style={styleApp.toDoList} />
          <View style={styleApp.rowContainer}>
             <TextInput style={styleApp.input} onChangeText={setText} value={state.text} placeholder={'Write some text...'} />
-            <Button title={'Add'} onPress={addTodo} color={'#767676'} />
+            <Button title={'Add'} onPress={_addTodo} color={'#767676'} />
          </View>
       </View>
    );
