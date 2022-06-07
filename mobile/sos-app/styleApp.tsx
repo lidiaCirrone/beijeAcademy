@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export default StyleSheet.create(
    {
@@ -19,7 +19,16 @@ export default StyleSheet.create(
          marginHorizontal: 15
       },
       sectionContainer: {
-         marginVertical: 20
+         marginBottom: 20
+      },
+      map: {
+         width: Dimensions.get('window').width - 40,
+         height: 200
+      },
+      heading: {
+         fontWeight: 'bold',
+         fontSize: 16,
+         marginBottom: 5
       }
    }
 )
