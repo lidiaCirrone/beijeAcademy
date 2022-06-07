@@ -94,41 +94,24 @@ const Home: FunctionComponent = () => {
    const handleCheck = (contactItem: Object) => (): void => {
 
       let updatedSelectedContacts: Object[] = state.selectedContacts;
-      // if (event) {
-         if (!updatedSelectedContacts.includes(contactItem)) {
-            updatedSelectedContacts.push(contactItem);
-         // }
+      if (!updatedSelectedContacts.includes(contactItem)) {
+         updatedSelectedContacts.push(contactItem);
       } else {
          updatedSelectedContacts.splice(updatedSelectedContacts.indexOf(contactItem), 1);
       }
-      // console.log(updatedSelectedContacts);
       setState({
          ...state,
          selectedContacts: updatedSelectedContacts
       });
-      // console.log(contactItem);
    }
 
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
-
-      // console.log(item);
 
       let initials = item.name[0];
       let cssClass: Object | [] = styleApp.nameCircle;
       if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.nameCircleSelected];
 
       return (
-         // <View style={styleApp.todoContainer}>
-         //    <View style={styleApp.todoHeader}>
-         //       <Text style={styleApp.todoDatetime}>{item.datetime}</Text>
-         //       <TouchableOpacity onPress={_deleteTodo(item.key)} >
-         //          <Image source={require('./assets/bin.png')} style={styleApp.binIcon} />
-         //       </TouchableOpacity>
-         //    </View>
-         //    <View>
-         //       <Text>{item.content}</Text>
-         //    </View>
-         // </View>
          <Pressable onPress={handleCheck(item)}>
             <View style={styleApp.contactListItem}>
                <View style={styleApp.leftSided}>
@@ -146,9 +129,6 @@ const Home: FunctionComponent = () => {
                {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
                   < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
                }
-               {/* <View>
-               <Text>check</Text>
-            </View> */}
             </View>
          </Pressable>
       );
