@@ -108,6 +108,7 @@ const Home: FunctionComponent = () => {
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
       let initials = item.name[0];
+      if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
       let cssClass: Object | [] = styleApp.nameCircle;
       if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.nameCircleSelected];
 
