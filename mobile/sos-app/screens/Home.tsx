@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 // modules
-import { Button, Text, View } from 'react-native';
 import * as Location from 'expo-location';
+import * as Contacts from 'expo-contacts';
+import { Button, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 // styles
@@ -42,7 +43,6 @@ const Home: FunctionComponent = () => {
       if (status !== 'granted') return;
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location.coords);
       let mapPosition = {
          latitude: location.coords.latitude,
          longitude: location.coords.longitude,
@@ -61,8 +61,27 @@ const Home: FunctionComponent = () => {
          markerCoordinates: markerPosition
       })
    }
+
+   const _requestContactsPermission = async (): Promise<void> => {
+      const { status } = await Contacts.requestPermissionsAsync();
+      if (status !== 'granted') return;
+
+      const { data } = await Contacts.getContactsAsync({
+         fields: [Contacts.Fields.Name, Contacts.Fields.Image, Contacts.Fields.PhoneNumbers],
+      });
+      data.forEach(person => {
+         if (person.phoneNumbers) {
+            console.log(person.name);
+            console.log(person.phoneNumbers);
+         }
+      });
+
+
+   }
+
    useEffect(() => {
       _requestLocationPermission()
+      _requestContactsPermission()
    }, [])
 
    if (state.hasLocationPermission) {
