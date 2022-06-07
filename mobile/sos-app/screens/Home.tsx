@@ -90,9 +90,7 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   // const handleCheck = (contactItem: Object) => (event: GestureResponderEvent): void => {
-   const handleCheck = (contactItem: Object) => (): void => {
-
+   const handleCheck = (contactItem: Object) => (event: GestureResponderEvent): void => {
       let updatedSelectedContacts: Object[] = state.selectedContacts;
       if (!updatedSelectedContacts.includes(contactItem)) {
          updatedSelectedContacts.push(contactItem);
@@ -102,6 +100,13 @@ const Home: FunctionComponent = () => {
       setState({
          ...state,
          selectedContacts: updatedSelectedContacts
+      });
+   }
+
+   const resetSelection = (): void => {
+      setState({
+         ...state,
+         selectedContacts: []
       });
    }
 
@@ -179,10 +184,15 @@ const Home: FunctionComponent = () => {
                   onRequestClose={toggleModal}>
                   <View style={styleApp.flexOne}>
                      <View style={styleApp.modalView}>
-                        <Text style={styleApp.modalText}>Choose your contacts</Text>
+                        <Text style={styleApp.modalText}>Choose your emergency contacts</Text>
                         {(allContacts && allContacts.length > 0) &&
                            <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
                         }
+                        <Pressable
+                           style={[styleApp.button, styleApp.buttonClose]}
+                           onPress={resetSelection}>
+                           <Text style={styleApp.textStyle}>Reset</Text>
+                        </Pressable>
                         <Pressable
                            style={[styleApp.button, styleApp.buttonClose]}
                            onPress={toggleModal}>
