@@ -9,7 +9,7 @@ export default StyleSheet.create(
          flex: 1,
          // backgroundColor: '#fff',
          alignItems: 'center',
-         justifyContent: 'space-between',
+         // justifyContent: 'space-between',
          marginVertical: 20
       },
       errorScreen: {
@@ -19,16 +19,19 @@ export default StyleSheet.create(
          marginHorizontal: 15
       },
       sectionContainer: {
-         marginBottom: 20
+         alignSelf: 'stretch',
+         marginBottom: 20,
+         marginHorizontal: 15
       },
       map: {
-         width: Dimensions.get('window').width - 40,
+         // width: Dimensions.get('window').width - 40,
          height: 200
       },
       heading: {
          fontWeight: 'bold',
          fontSize: 16,
          marginBottom: 5
-      }
+      },
+      contactsList: {}
    }
 )
