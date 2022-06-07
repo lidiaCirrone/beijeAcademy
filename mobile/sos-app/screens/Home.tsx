@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 // modules
-import { Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
 // styles
 import styleApp from '../styleApp';
@@ -10,9 +10,22 @@ import styleApp from '../styleApp';
 const Home: FunctionComponent = () => {
    return (
       <View style={styleApp.screenContainer}>
-         <Text>
-            Screen Home
-         </Text>
+
+         <View style={styleApp.sectionContainer}>
+            <Text>Your location</Text>
+            {/* MapView */}
+         </View>
+
+         <View style={styleApp.sectionContainer}>
+            <Text>Your contacts</Text>
+            {/* Contacts */}
+         </View>
+
+
+         <View style={styleApp.sectionContainer}>
+            <Button title='Ask for help' />
+         </View>
+
       </View>
    )
 }

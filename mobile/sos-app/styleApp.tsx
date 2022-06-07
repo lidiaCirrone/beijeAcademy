@@ -7,9 +7,13 @@ export default StyleSheet.create(
       },
       screenContainer: {
          flex: 1,
-         backgroundColor: '#fff',
+         // backgroundColor: '#fff',
          alignItems: 'center',
-         justifyContent: 'center'
+         justifyContent: 'space-between',
+         marginVertical: 20
+      },
+      sectionContainer: {
+         marginVertical: 20
       }
    }
 )
