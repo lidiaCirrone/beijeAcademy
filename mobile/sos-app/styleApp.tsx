@@ -7,9 +7,7 @@ export default StyleSheet.create(
       },
       screenContainer: {
          flex: 1,
-         // backgroundColor: '#fff',
          alignItems: 'center',
-         // justifyContent: 'space-between',
          marginVertical: 20
       },
       errorScreen: {
@@ -20,11 +18,10 @@ export default StyleSheet.create(
       },
       sectionContainer: {
          alignSelf: 'stretch',
-         marginBottom: 20,
+         marginBottom: 40,
          marginHorizontal: 15
       },
       map: {
-         // width: Dimensions.get('window').width - 40,
          height: 200
       },
       heading: {
@@ -32,7 +29,12 @@ export default StyleSheet.create(
          fontSize: 16,
          marginBottom: 5
       },
-      contactsList: {},
+      flexDirectionRow: {
+         flexDirection: 'row'
+      },
+      contactsList: {
+         marginTop: 15
+      },
       contactListItem: {
          flexDirection: 'row',
          alignItems: 'center',
@@ -41,9 +43,11 @@ export default StyleSheet.create(
       },
       leftSided: {
          flexDirection: 'row',
+         alignItems: 'center'
+      },
+      centered: {
          alignItems: 'center',
-         // justifyContent: 'space-between',
-         // marginBottom: 10
+         marginRight: 10
       },
       nameCircle: {
          width: 40,
@@ -51,8 +55,10 @@ export default StyleSheet.create(
          alignItems: 'center',
          justifyContent: 'center',
          borderRadius: 20,
-         marginRight: 15,
          backgroundColor: '#dedede'
+      },
+      marginRight: {
+         marginRight: 15
       },
       nameCircleSelected: {
          backgroundColor: '#666'
@@ -61,34 +67,41 @@ export default StyleSheet.create(
          color: '#fff',
          fontSize: 18
       },
+      pictureCircle: {
+         width: 40,
+         height: 40
+      },
+      spaceBetween: {
+         flexDirection: 'row',
+         justifyContent: 'space-between'
+      },
       modalView: {
          height: Dimensions.get('window').height - 40,
          margin: 20,
          backgroundColor: 'white',
          borderRadius: 10,
-         // padding: 35,
-         alignItems: 'center',
-         // shadowColor: '#000',
-         // shadowOffset: {
-         //    width: 0,
-         //    height: 2
-         // },
-         // shadowOpacity: 0.25,
-         // shadowRadius: 4,
-         // elevation: 5
+         alignItems: 'center'
       },
       button: {
-         borderRadius: 20,
-         // padding: 10,
-         // elevation: 2
+         borderRadius: 20
       },
       buttonOpen: {
-         backgroundColor: '#39d02d'
+         backgroundColor: '#39bdff',
+         paddingHorizontal: 10,
+         justifyContent: 'center'
       },
       buttonClose: {
          backgroundColor: '#39bdff',
          padding: 10,
-         marginVertical: 20
+         margin: 20
+      },
+      askButton: {
+         borderRadius: 20,
+         backgroundColor: '#ff8339',
+         paddingVertical: 10,
+         paddingHorizontal: 20,
+         justifyContent: 'center',
+         marginTop: 100
       },
       textStyle: {
          color: 'white',

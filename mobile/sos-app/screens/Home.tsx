@@ -3,12 +3,12 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
-import { Button, FlatList, GestureResponderEvent, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
+import { FlatList, GestureResponderEvent, ImageBackground, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 // styles
 import styleApp from '../styleApp';
-import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 
 interface MarkerProps {
@@ -28,7 +28,7 @@ interface State {
    mapCoordinates?: MapViewProps;
    markerCoordinates?: MarkerProps;
    contactsModalVisible: boolean;
-   selectedContacts: Object[];
+   selectedContacts: Contacts.Contact[];
 }
 
 const initialState: State = {
@@ -90,8 +90,8 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   const handleCheck = (contactItem: Object) => (event: GestureResponderEvent): void => {
-      let updatedSelectedContacts: Object[] = state.selectedContacts;
+   const handleCheck = (contactItem: Contacts.Contact) => (event: GestureResponderEvent): void => {
+      let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
       if (!updatedSelectedContacts.includes(contactItem)) {
          updatedSelectedContacts.push(contactItem);
       } else {
@@ -110,12 +110,16 @@ const Home: FunctionComponent = () => {
       });
    }
 
+   const askForHelp = (): void => {
+      console.log('heeelp');
+   }
+
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
       let initials = item.name[0];
       if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
-      let cssClass: Object | [] = styleApp.nameCircle;
-      if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.nameCircleSelected];
+      let cssClass: Object | [] = [styleApp.nameCircle, styleApp.marginRight];
+      if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected];
 
       return (
          <Pressable onPress={handleCheck(item)}>
@@ -140,7 +144,42 @@ const Home: FunctionComponent = () => {
       );
    };
 
+   const renderSelectedContacts: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
+
+      let initials = item.name[0];
+      if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
+
+      let picture: string | undefined = '';
+      if (item.image) picture = item.image.uri;
+
+      return (
+         <View style={styleApp.centered} >
+
+            {picture === '' ?
+               <View style={styleApp.nameCircle}>
+                  <Text style={styleApp.nameCircleText}>
+                     {initials}
+                  </Text>
+               </View>
+               :
+               <ImageBackground
+                  source={{ uri: picture }}
+                  imageStyle={{ borderRadius: 20 }}
+                  style={styleApp.pictureCircle} />
+            }
+
+            <Text>{item.name}</Text>
+
+            {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
+               < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
+            }
+         </View>
+      );
+   };
+
    if (state.hasLocationPermission) {
+
+      let selectedContactsAmount = state.selectedContacts?.length;
 
       return (
          <>
@@ -158,19 +197,29 @@ const Home: FunctionComponent = () => {
                </View>
 
                <View style={styleApp.sectionContainer}>
-                  <Text style={styleApp.heading}>Your contacts</Text>
-                  <Pressable style={[styleApp.button, styleApp.buttonOpen]} onPress={toggleModal}>
-                     <Text style={styleApp.textStyle}>Select Contacts</Text>
-                  </Pressable>
+                  <View style={styleApp.spaceBetween}>
+                     <Text style={styleApp.heading}>Your contacts ({selectedContactsAmount})</Text>
+                     <Pressable style={[styleApp.button, styleApp.buttonOpen]} onPress={toggleModal}>
+                        <Text style={styleApp.textStyle}>Edit</Text>
+                     </Pressable>
+                  </View>
                   {(state.selectedContacts && state.selectedContacts.length > 0) &&
-                     <Text>Selected contacts here</Text>
-                     // <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
+                     <FlatList
+                        data={state.selectedContacts}
+                        renderItem={renderSelectedContacts}
+                        keyExtractor={item => `selected${item.id}`}
+                        style={styleApp.contactsList}
+                        horizontal={true}
+                        contentContainerStyle={styleApp.flexDirectionRow}
+                     />
                   }
                </View>
 
 
-               <View style={styleApp.sectionContainer}>
-                  <Button title='Ask for help' />
+               <View>
+                  <Pressable style={[styleApp.askButton]} onPress={askForHelp}>
+                     <Text style={styleApp.textStyle}>Ask for help</Text>
+                  </Pressable>
                </View>
 
                {/* </ScrollView> */}
@@ -188,16 +237,18 @@ const Home: FunctionComponent = () => {
                         {(allContacts && allContacts.length > 0) &&
                            <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
                         }
-                        <Pressable
-                           style={[styleApp.button, styleApp.buttonClose]}
-                           onPress={resetSelection}>
-                           <Text style={styleApp.textStyle}>Reset</Text>
-                        </Pressable>
-                        <Pressable
-                           style={[styleApp.button, styleApp.buttonClose]}
-                           onPress={toggleModal}>
-                           <Text style={styleApp.textStyle}>Confirm</Text>
-                        </Pressable>
+                        <View style={styleApp.spaceBetween}>
+                           <Pressable
+                              style={[styleApp.button, styleApp.buttonClose]}
+                              onPress={resetSelection}>
+                              <Text style={styleApp.textStyle}>Reset</Text>
+                           </Pressable>
+                           <Pressable
+                              style={[styleApp.button, styleApp.buttonClose]}
+                              onPress={toggleModal}>
+                              <Text style={styleApp.textStyle}>Confirm</Text>
+                           </Pressable>
+                        </View>
                      </View>
                   </View>
                </Modal>
