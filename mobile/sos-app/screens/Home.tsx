@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
-import { Button, FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
+import { Button, FlatList, GestureResponderEvent, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 // styles
@@ -28,7 +28,7 @@ interface State {
    mapCoordinates?: MapViewProps;
    markerCoordinates?: MarkerProps;
    contactsModalVisible: boolean;
-   selectedContacts: [];
+   selectedContacts: Object[];
 }
 
 const initialState: State = {
@@ -90,11 +90,32 @@ const Home: FunctionComponent = () => {
       });
    }
 
+   // const handleCheck = (contactItem: Object) => (event: GestureResponderEvent): void => {
+   const handleCheck = (contactItem: Object) => (): void => {
+
+      let updatedSelectedContacts: Object[] = state.selectedContacts;
+      // if (event) {
+         if (!updatedSelectedContacts.includes(contactItem)) {
+            updatedSelectedContacts.push(contactItem);
+         // }
+      } else {
+         updatedSelectedContacts.splice(updatedSelectedContacts.indexOf(contactItem), 1);
+      }
+      // console.log(updatedSelectedContacts);
+      setState({
+         ...state,
+         selectedContacts: updatedSelectedContacts
+      });
+      // console.log(contactItem);
+   }
+
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
       // console.log(item);
 
       let initials = item.name[0];
+      let cssClass: Object | [] = styleApp.nameCircle;
+      if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.nameCircleSelected];
 
       return (
          // <View style={styleApp.todoContainer}>
@@ -108,26 +129,28 @@ const Home: FunctionComponent = () => {
          //       <Text>{item.content}</Text>
          //    </View>
          // </View>
-         <View style={styleApp.contactListItem}>
-            <View style={styleApp.leftSided}>
+         <Pressable onPress={handleCheck(item)}>
+            <View style={styleApp.contactListItem}>
+               <View style={styleApp.leftSided}>
 
-               <View style={styleApp.nameCircle}>
-                  <Text style={styleApp.nameCircleText}>
-                     {true ? initials : '✓'}
-                  </Text>
-               </View>
+                  <View style={cssClass}>
+                     <Text style={styleApp.nameCircleText}>
+                        {!state.selectedContacts.includes(item) ? initials : '✓'}
+                     </Text>
+                  </View>
 
-               <View>
-                  <Text>{item.name}</Text>
+                  <View>
+                     <Text>{item.name}</Text>
+                  </View >
                </View >
-            </View >
-            {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
-               < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
-            }
-            {/* <View>
+               {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
+                  < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
+               }
+               {/* <View>
                <Text>check</Text>
             </View> */}
-         </View>
+            </View>
+         </Pressable>
       );
    };
 

@@ -54,6 +54,9 @@ export default StyleSheet.create(
          marginRight: 15,
          backgroundColor: '#dedede'
       },
+      nameCircleSelected: {
+         backgroundColor: '#666'
+      },
       nameCircleText: {
          color: '#fff',
          fontSize: 18
