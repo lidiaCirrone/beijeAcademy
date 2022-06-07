@@ -10,9 +10,10 @@ import styleApp from '../styleApp';
 const Tutorial: FunctionComponent = () => {
    return (
       <View style={styleApp.screenContainer}>
-         <Text>
-            Screen Tutorial
-         </Text>
+
+         <Text>Screen Tutorial</Text>
+         {/* ViewPager */}
+
       </View>
    )
 }

@@ -12,6 +12,12 @@ export default StyleSheet.create(
          justifyContent: 'space-between',
          marginVertical: 20
       },
+      errorScreen: {
+         flex: 1,
+         justifyContent: 'space-between',
+         marginVertical: 20,
+         marginHorizontal: 15
+      },
       sectionContainer: {
          marginVertical: 20
       }
