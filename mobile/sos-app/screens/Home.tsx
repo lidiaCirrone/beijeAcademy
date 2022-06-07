@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 // modules
 import { Button, Text, View } from 'react-native';
 import * as Location from 'expo-location';
-import MapView, { AnimatedRegion, LatLng, Marker, Region } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 // styles
 import styleApp from '../styleApp';
