@@ -1,20 +1,23 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
+
+// components
+import EntryApp from './EntryApp';
 
 // modules
 import { StatusBar } from 'expo-status-bar';
-import { Text, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 // styles
 import styleApp from './styleApp';
 
 
 const App: FunctionComponent = () => {
-  return (
-    <SafeAreaView style={styleApp.container}>
-      <StatusBar style="auto" />
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </SafeAreaView>
-  );
+   return (
+      <SafeAreaView style={styleApp.flexOne}>
+         <StatusBar style="auto" />
+         <EntryApp />
+      </SafeAreaView>
+   );
 }
 
 export default App;
