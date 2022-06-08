@@ -21,6 +21,16 @@ export default StyleSheet.create(
          marginBottom: 40,
          marginHorizontal: 15
       },
+      tutorialSection: {
+         alignSelf: 'stretch',
+         alignItems: 'center',
+         margin: 15
+      },
+      tutorialLink: {
+         fontWeight: 'bold',
+         textDecorationLine: 'underline',
+         color: '#666'
+      },
       map: {
          height: 200
       },

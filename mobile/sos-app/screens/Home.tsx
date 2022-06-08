@@ -13,7 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // styles
 import styleApp from '../styleApp';
-// import { ScrollView } from 'react-native-gesture-handler';
 
 
 interface MapViewProps {
@@ -39,7 +38,7 @@ const initialState: State = {
 
 let allContacts: Contacts.Contact[] = [];
 
-const Home: FunctionComponent = () => {
+const Home: FunctionComponent = (props) => {
 
    const [state, setState] = useState<State>(initialState);
 
@@ -137,6 +136,10 @@ const Home: FunctionComponent = () => {
       await SMS.sendSMSAsync(phoneNumbersArray, message);
    }
 
+   const goToTutorial = () => {
+      props.navigation.navigate('Tutorial');
+   }
+
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
       let initials = item.name[0];
@@ -172,7 +175,13 @@ const Home: FunctionComponent = () => {
       return (
          <>
             <View style={styleApp.screenContainer}>
-               {/* <ScrollView> */}
+
+               <View>
+                  <Pressable style={[styleApp.tutorialSection]} onPress={goToTutorial}>
+                     <Text>Not sure what to do?</Text>
+                     <Text style={styleApp.tutorialLink}>Have a look at the tutorial!</Text>
+                  </Pressable>
+               </View>
 
                <View style={styleApp.sectionContainer}>
                   <Text style={styleApp.heading}>Your location</Text>
@@ -193,11 +202,10 @@ const Home: FunctionComponent = () => {
 
                <View>
                   <Pressable style={[styleApp.askButton]} onPress={askForHelp}>
-                     <Text style={styleApp.textStyle}>Ask for help</Text>
+                     <Text style={styleApp.textStyle}>Ask for help!</Text>
                   </Pressable>
                </View>
 
-               {/* </ScrollView> */}
             </View>
 
             <View style={styleApp.flexOne}>
