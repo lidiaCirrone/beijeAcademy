@@ -6,6 +6,7 @@ import SelectedContacts from '../components/SelectedContacts';
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
+import * as SMS from 'expo-sms';
 import { FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -105,7 +106,7 @@ const Home: FunctionComponent = () => {
       updatedSelectedContacts.includes(contactItem)
          ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
          : updatedSelectedContacts = [...updatedSelectedContacts, contactItem];
-         await AsyncStorage.setItem('selectedContacts', JSON.stringify(updatedSelectedContacts));
+      await AsyncStorage.setItem('selectedContacts', JSON.stringify(updatedSelectedContacts));
       setState({
          ...state,
          selectedContacts: updatedSelectedContacts
@@ -120,8 +121,20 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   const askForHelp = (): void => {
-      console.log('heeelp');
+   const askForHelp = async (): Promise<void> => {
+      const smsAvailable = await SMS.isAvailableAsync();
+      if (!smsAvailable) return;
+      let phoneNumbersArray: string[] = [];
+      state?.selectedContacts.forEach(person => {
+         if (person.phoneNumbers && person.phoneNumbers[0].number) {
+            phoneNumbersArray.push(person.phoneNumbers[0].number.replace(/ /g, ''));
+         }
+      });
+      let googleMapsURL = `https://www.google.com/maps/@${state?.markerCoordinates?.latitude},${state?.markerCoordinates?.longitude},18z`;
+      let googleMapsAddress = await Location.reverseGeocodeAsync({ latitude: state?.markerCoordinates?.latitude, longitude: state?.markerCoordinates?.longitude });
+      let addressString = `${googleMapsAddress[0]?.street} ${googleMapsAddress[0]?.streetNumber}, ${googleMapsAddress[0]?.postalCode} - ${googleMapsAddress[0]?.city} (${googleMapsAddress[0]?.country})`;
+      let message = `Hi, I don't feel safe and this is where I am: ${addressString} Please, help me! ${googleMapsURL}`;
+      const {result} = await SMS.sendSMSAsync(phoneNumbersArray, message);
    }
 
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
