@@ -133,7 +133,7 @@ const Home: FunctionComponent = () => {
       let googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${state?.markerCoordinates?.latitude},${state?.markerCoordinates?.longitude}`;
       let googleMapsAddress = await Location.reverseGeocodeAsync({ latitude: state?.markerCoordinates?.latitude, longitude: state?.markerCoordinates?.longitude });
       let addressString = `${googleMapsAddress[0]?.street} ${googleMapsAddress[0]?.streetNumber}, ${googleMapsAddress[0]?.postalCode} - ${googleMapsAddress[0]?.city} (${googleMapsAddress[0]?.country})`;
-      let message = `Hi, I don't feel safe and this is where I am: ${addressString} Please, help me! ${googleMapsURL}`;
+      let message = `Hi, I don't feel safe and this is where I am:\n${addressString}\n\nPlease, help me!\n\n${googleMapsURL}`;
       await SMS.sendSMSAsync(phoneNumbersArray, message);
    }
 
