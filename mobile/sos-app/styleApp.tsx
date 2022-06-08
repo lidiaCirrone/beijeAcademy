@@ -18,14 +18,12 @@ export default StyleSheet.create(
       },
       sectionContainer: {
          alignSelf: 'stretch',
-         marginBottom: 40,
-         marginHorizontal: 15
+         marginHorizontal: 15,
+         marginBottom: 40
       },
       tutorialSection: {
-         alignSelf: 'stretch',
          alignItems: 'center',
-         margin: 15,
-         marginBottom: 30
+         margin: 15
       },
       tutorialLink: {
          fontWeight: 'bold',
@@ -58,8 +56,7 @@ export default StyleSheet.create(
          alignItems: 'center'
       },
       centered: {
-         alignItems: 'center',
-         marginRight: 10
+         alignItems: 'center'
       },
       nameCircle: {
          width: 40,
@@ -68,6 +65,12 @@ export default StyleSheet.create(
          justifyContent: 'center',
          borderRadius: 20,
          backgroundColor: '#dedede'
+      },
+      marginTop: {
+         marginTop: 15
+      },
+      marginTopMore: {
+         marginTop: 70
       },
       marginRight: {
          marginRight: 15

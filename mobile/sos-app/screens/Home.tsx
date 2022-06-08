@@ -193,7 +193,7 @@ const Home: FunctionComponent = (props) => {
             <View style={styleApp.screenContainer}>
 
                <View>
-                  <Pressable style={[styleApp.tutorialSection]} onPress={goToTutorial}>
+                  <Pressable style={[styleApp.sectionContainer, styleApp.centered]} onPress={goToTutorial}>
                      <Text>Not sure what to do?</Text>
                      <Text style={styleApp.tutorialLink}>Have a look at the tutorial!</Text>
                   </Pressable>
@@ -258,7 +258,7 @@ const Home: FunctionComponent = (props) => {
       return (
          <View style={[styleApp.errorScreen]}>
             <Text>In order for this app to work, you must grant us permission to access Location, Contacts and SMS.</Text>
-            {/* open settings App */}
+            {/* TO-DO: open settings App */}
          </View>
       )
 

@@ -18,15 +18,15 @@ const Tutorial: FunctionComponent = (props) => {
 
    return (
       <View style={styleApp.screenContainer}>
+         
+         <Carousel />
 
          <View>
-            <Pressable style={[styleApp.tutorialSection]} onPress={goToHome}>
+            <Pressable style={styleApp.tutorialSection} onPress={goToHome}>
                <Text>No more doubts?</Text>
                <Text style={styleApp.tutorialLink}>Go back to the homepage!</Text>
             </Pressable>
          </View>
-         
-         <Carousel />
 
       </View>
    )

@@ -19,7 +19,7 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
       if (item.image) picture = item.image.uri;
 
       return (
-         <View style={styleApp.centered} >
+         <View style={[styleApp.centered, styleApp.marginRight]} >
 
             {picture === '' ?
                <View style={styleApp.nameCircle}>
