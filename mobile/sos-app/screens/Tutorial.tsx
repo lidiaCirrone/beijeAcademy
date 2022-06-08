@@ -1,5 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
+// components
+import Carousel from '../components/Carousel';
+
 // modules
 import { Text, Pressable, View } from 'react-native';
 
@@ -23,7 +26,7 @@ const Tutorial: FunctionComponent = (props) => {
             </Pressable>
          </View>
          
-         {/* ViewPager */}
+         <Carousel />
 
       </View>
    )

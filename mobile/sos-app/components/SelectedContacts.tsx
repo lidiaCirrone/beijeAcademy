@@ -53,7 +53,8 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
                <Text style={styleApp.textStyle}>Edit</Text>
             </Pressable>
          </View>
-         {(props.data && props.data.length > 0) &&
+         {(props.data && props.data.length > 0)
+         ?
             <FlatList
                data={props.data}
                renderItem={renderSelectedContacts}
@@ -62,6 +63,8 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
                horizontal={true}
                contentContainerStyle={styleApp.flexDirectionRow}
             />
+            :
+            <Text>You haven't added any contacts yet.</Text>
          }
       </View>
    )
