@@ -1,20 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
+// components
+import SelectedContacts from '../components/SelectedContacts';
+
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
-import { FlatList, GestureResponderEvent, ImageBackground, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
+import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 
 // styles
 import styleApp from '../styleApp';
 // import { ScrollView } from 'react-native-gesture-handler';
 
-
-interface MarkerProps {
-   latitude: number;
-   longitude: number;
-}
 
 interface MapViewProps {
    latitude: number;
@@ -26,7 +24,7 @@ interface MapViewProps {
 interface State {
    hasLocationPermission: boolean;
    mapCoordinates?: MapViewProps;
-   markerCoordinates?: MarkerProps;
+   markerCoordinates?: LatLng | AnimatedRegion;
    contactsModalVisible: boolean;
    selectedContacts: Contacts.Contact[];
 }
@@ -90,13 +88,11 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   const handleCheck = (contactItem: Contacts.Contact) => (event: GestureResponderEvent): void => {
+   const handleCheck = (contactItem: Contacts.Contact) => (): void => {
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
-      if (!updatedSelectedContacts.includes(contactItem)) {
-         updatedSelectedContacts.push(contactItem);
-      } else {
-         updatedSelectedContacts.splice(updatedSelectedContacts.indexOf(contactItem), 1);
-      }
+      updatedSelectedContacts.includes(contactItem)
+         ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
+         : updatedSelectedContacts = [...updatedSelectedContacts, contactItem];
       setState({
          ...state,
          selectedContacts: updatedSelectedContacts
@@ -144,42 +140,7 @@ const Home: FunctionComponent = () => {
       );
    };
 
-   const renderSelectedContacts: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
-
-      let initials = item.name[0];
-      if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
-
-      let picture: string | undefined = '';
-      if (item.image) picture = item.image.uri;
-
-      return (
-         <View style={styleApp.centered} >
-
-            {picture === '' ?
-               <View style={styleApp.nameCircle}>
-                  <Text style={styleApp.nameCircleText}>
-                     {initials}
-                  </Text>
-               </View>
-               :
-               <ImageBackground
-                  source={{ uri: picture }}
-                  imageStyle={{ borderRadius: 20 }}
-                  style={styleApp.pictureCircle} />
-            }
-
-            <Text>{item.name}</Text>
-
-            {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
-               < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
-            }
-         </View>
-      );
-   };
-
    if (state.hasLocationPermission) {
-
-      let selectedContactsAmount = state.selectedContacts?.length;
 
       return (
          <>
@@ -192,29 +153,16 @@ const Home: FunctionComponent = () => {
                      style={styleApp.map}
                      region={state.mapCoordinates}
                   >
-                     <Marker coordinate={state.markerCoordinates} title='You' />
+                     {state.markerCoordinates &&
+                        <Marker coordinate={state.markerCoordinates} title='You' />
+                     }
                   </MapView>
                </View>
 
-               <View style={styleApp.sectionContainer}>
-                  <View style={styleApp.spaceBetween}>
-                     <Text style={styleApp.heading}>Your contacts ({selectedContactsAmount})</Text>
-                     <Pressable style={[styleApp.button, styleApp.buttonOpen]} onPress={toggleModal}>
-                        <Text style={styleApp.textStyle}>Edit</Text>
-                     </Pressable>
-                  </View>
-                  {(state.selectedContacts && state.selectedContacts.length > 0) &&
-                     <FlatList
-                        data={state.selectedContacts}
-                        renderItem={renderSelectedContacts}
-                        keyExtractor={item => `selected${item.id}`}
-                        style={styleApp.contactsList}
-                        horizontal={true}
-                        contentContainerStyle={styleApp.flexDirectionRow}
-                     />
-                  }
-               </View>
-
+               <SelectedContacts
+                  data={state.selectedContacts}
+                  callback={toggleModal}
+               />
 
                <View>
                   <Pressable style={[styleApp.askButton]} onPress={askForHelp}>
@@ -233,7 +181,7 @@ const Home: FunctionComponent = () => {
                   onRequestClose={toggleModal}>
                   <View style={styleApp.flexOne}>
                      <View style={styleApp.modalView}>
-                        <Text style={styleApp.modalText}>Choose your emergency contacts</Text>
+                        <Text style={styleApp.modalText}>Choose your emergency contacts ({state.selectedContacts.length})</Text>
                         {(allContacts && allContacts.length > 0) &&
                            <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
                         }
