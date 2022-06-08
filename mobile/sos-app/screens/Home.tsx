@@ -134,7 +134,7 @@ const Home: FunctionComponent = () => {
       let googleMapsAddress = await Location.reverseGeocodeAsync({ latitude: state?.markerCoordinates?.latitude, longitude: state?.markerCoordinates?.longitude });
       let addressString = `${googleMapsAddress[0]?.street} ${googleMapsAddress[0]?.streetNumber}, ${googleMapsAddress[0]?.postalCode} - ${googleMapsAddress[0]?.city} (${googleMapsAddress[0]?.country})`;
       let message = `Hi, I don't feel safe and this is where I am: ${addressString} Please, help me! ${googleMapsURL}`;
-      const {result} = await SMS.sendSMSAsync(phoneNumbersArray, message);
+      await SMS.sendSMSAsync(phoneNumbersArray, message);
    }
 
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
