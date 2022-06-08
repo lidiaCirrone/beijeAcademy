@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import { FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // styles
 import styleApp from '../styleApp';
@@ -65,6 +66,16 @@ const Home: FunctionComponent = () => {
       })
    }
 
+   const _getStorage = async (): Promise<void> => {
+      let storageSelectedContacts = [];
+      let results = await AsyncStorage.getItem('selectedContacts');
+      if (results !== null && results.length > 0) storageSelectedContacts = JSON.parse(results);
+      setState({
+         ...state,
+         selectedContacts: storageSelectedContacts
+      })
+   }
+
    const _requestContactsPermission = async (): Promise<void> => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status !== 'granted') return;
@@ -74,6 +85,7 @@ const Home: FunctionComponent = () => {
       });
       let filteredContacts = data.filter(person => person.phoneNumbers && person.phoneNumbers.length > 0 && person.phoneNumbers.some(item => item.label === 'mobile'));
       allContacts = filteredContacts;
+      _getStorage();
    }
 
    useEffect(() => {
@@ -88,11 +100,12 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   const handleCheck = (contactItem: Contacts.Contact) => (): void => {
+   const handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
       updatedSelectedContacts.includes(contactItem)
          ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
          : updatedSelectedContacts = [...updatedSelectedContacts, contactItem];
+         await AsyncStorage.setItem('selectedContacts', JSON.stringify(updatedSelectedContacts));
       setState({
          ...state,
          selectedContacts: updatedSelectedContacts
