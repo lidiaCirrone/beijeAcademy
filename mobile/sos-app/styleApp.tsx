@@ -24,7 +24,8 @@ export default StyleSheet.create(
       tutorialSection: {
          alignSelf: 'stretch',
          alignItems: 'center',
-         margin: 15
+         margin: 15,
+         marginBottom: 30
       },
       tutorialLink: {
          fontWeight: 'bold',
@@ -43,6 +44,7 @@ export default StyleSheet.create(
          flexDirection: 'row'
       },
       contactsList: {
+         alignSelf: 'stretch',
          marginTop: 15
       },
       contactListItem: {
@@ -89,7 +91,6 @@ export default StyleSheet.create(
          height: Dimensions.get('window').height - 40,
          margin: 20,
          backgroundColor: 'white',
-         borderRadius: 10,
          alignItems: 'center'
       },
       button: {
@@ -103,12 +104,14 @@ export default StyleSheet.create(
       resetButton: {
          backgroundColor: '#ff8339',
          padding: 10,
-         margin: 20
+         margin: 20,
+         marginBottom: 0
       },
       closeButton: {
          backgroundColor: '#39bdff',
          padding: 10,
-         margin: 20
+         margin: 20,
+         marginBottom: 0
       },
       askButton: {
          borderRadius: 20,

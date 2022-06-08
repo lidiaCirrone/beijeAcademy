@@ -7,7 +7,7 @@ import SelectedContacts from '../components/SelectedContacts';
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import * as SMS from 'expo-sms';
-import { FlatList, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
+import { FlatList, ImageBackground, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -147,16 +147,26 @@ const Home: FunctionComponent = (props) => {
       let cssClass: Object | [] = [styleApp.nameCircle, styleApp.marginRight];
       if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected];
 
+      let picture: string | undefined = '';
+      if (item.image) picture = item.image.uri;
+
       return (
          <Pressable onPress={handleCheck(item)}>
             <View style={styleApp.contactListItem}>
                <View style={styleApp.leftSided}>
 
-                  <View style={cssClass}>
-                     <Text style={styleApp.nameCircleText}>
-                        {!state.selectedContacts.includes(item) ? initials : '✓'}
-                     </Text>
-                  </View>
+                  {picture === '' ?
+                     <View style={cssClass}>
+                        <Text style={styleApp.nameCircleText}>
+                           {!state.selectedContacts.includes(item) ? initials : '✓'}
+                        </Text>
+                     </View>
+                     :
+                     <ImageBackground
+                        source={{ uri: picture }}
+                        imageStyle={{ borderRadius: 20 }}
+                        style={[styleApp.pictureCircle, styleApp.marginRight]} />
+                  }
 
                   <View>
                      <Text>{item.name}</Text>
@@ -210,28 +220,25 @@ const Home: FunctionComponent = (props) => {
 
             <View style={styleApp.flexOne}>
                <Modal
-                  animationType="slide"
-                  transparent={true}
+                  animationType='slide'
                   visible={state.contactsModalVisible}
                   onRequestClose={toggleModal}>
-                  <View style={styleApp.flexOne}>
-                     <View style={styleApp.modalView}>
-                        <Text style={styleApp.modalText}>Choose your emergency contacts ({state.selectedContacts.length})</Text>
-                        {(allContacts && allContacts.length > 0) &&
-                           <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
-                        }
-                        <View style={styleApp.spaceBetween}>
-                           <Pressable
-                              style={[styleApp.button, styleApp.resetButton]}
-                              onPress={resetSelection}>
-                              <Text style={styleApp.textStyle}>Reset</Text>
-                           </Pressable>
-                           <Pressable
-                              style={[styleApp.button, styleApp.closeButton]}
-                              onPress={toggleModal}>
-                              <Text style={styleApp.textStyle}>Save</Text>
-                           </Pressable>
-                        </View>
+                  <View style={[styleApp.flexOne, styleApp.modalView]}>
+                     <Text style={styleApp.modalText}>Choose your emergency contacts ({state.selectedContacts.length})</Text>
+                     {(allContacts && allContacts.length > 0) &&
+                        <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
+                     }
+                     <View style={styleApp.spaceBetween}>
+                        <Pressable
+                           style={[styleApp.button, styleApp.resetButton]}
+                           onPress={resetSelection}>
+                           <Text style={styleApp.textStyle}>Reset</Text>
+                        </Pressable>
+                        <Pressable
+                           style={[styleApp.button, styleApp.closeButton]}
+                           onPress={toggleModal}>
+                           <Text style={styleApp.textStyle}>Save</Text>
+                        </Pressable>
                      </View>
                   </View>
                </Modal>
