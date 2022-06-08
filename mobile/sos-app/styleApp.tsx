@@ -85,12 +85,17 @@ export default StyleSheet.create(
       button: {
          borderRadius: 20
       },
-      buttonOpen: {
+      openButton: {
          backgroundColor: '#39bdff',
          paddingHorizontal: 10,
          justifyContent: 'center'
       },
-      buttonClose: {
+      resetButton: {
+         backgroundColor: '#ff8339',
+         padding: 10,
+         margin: 20
+      },
+      closeButton: {
          backgroundColor: '#39bdff',
          padding: 10,
          margin: 20

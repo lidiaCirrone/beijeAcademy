@@ -49,7 +49,7 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
       <View style={styleApp.sectionContainer}>
          <View style={styleApp.spaceBetween}>
             <Text style={styleApp.heading}>Your contacts ({selectedContactsAmount})</Text>
-            <Pressable style={[styleApp.button, styleApp.buttonOpen]} onPress={props.callback}>
+            <Pressable style={[styleApp.button, styleApp.openButton]} onPress={props.callback}>
                <Text style={styleApp.textStyle}>Edit</Text>
             </Pressable>
          </View>

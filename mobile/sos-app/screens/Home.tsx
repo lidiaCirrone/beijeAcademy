@@ -112,7 +112,8 @@ const Home: FunctionComponent = () => {
       });
    }
 
-   const resetSelection = (): void => {
+   const resetSelection = async (): Promise<void> => {
+      await AsyncStorage.clear();
       setState({
          ...state,
          selectedContacts: []
@@ -200,14 +201,14 @@ const Home: FunctionComponent = () => {
                         }
                         <View style={styleApp.spaceBetween}>
                            <Pressable
-                              style={[styleApp.button, styleApp.buttonClose]}
+                              style={[styleApp.button, styleApp.resetButton]}
                               onPress={resetSelection}>
                               <Text style={styleApp.textStyle}>Reset</Text>
                            </Pressable>
                            <Pressable
-                              style={[styleApp.button, styleApp.buttonClose]}
+                              style={[styleApp.button, styleApp.closeButton]}
                               onPress={toggleModal}>
-                              <Text style={styleApp.textStyle}>Confirm</Text>
+                              <Text style={styleApp.textStyle}>Save</Text>
                            </Pressable>
                         </View>
                      </View>
