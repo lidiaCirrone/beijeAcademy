@@ -124,13 +124,13 @@ const Home: FunctionComponent = () => {
    const askForHelp = async (): Promise<void> => {
       const smsAvailable = await SMS.isAvailableAsync();
       if (!smsAvailable) return;
-      let phoneNumbersArray: string[] = [];
+      let phoneNumbersArray: Array<string> = [];
       state?.selectedContacts.forEach(person => {
          if (person.phoneNumbers && person.phoneNumbers[0].number) {
             phoneNumbersArray.push(person.phoneNumbers[0].number.replace(/ /g, ''));
          }
       });
-      let googleMapsURL = `https://www.google.com/maps/@${state?.markerCoordinates?.latitude},${state?.markerCoordinates?.longitude},18z`;
+      let googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${state?.markerCoordinates?.latitude},${state?.markerCoordinates?.longitude}`;
       let googleMapsAddress = await Location.reverseGeocodeAsync({ latitude: state?.markerCoordinates?.latitude, longitude: state?.markerCoordinates?.longitude });
       let addressString = `${googleMapsAddress[0]?.street} ${googleMapsAddress[0]?.streetNumber}, ${googleMapsAddress[0]?.postalCode} - ${googleMapsAddress[0]?.city} (${googleMapsAddress[0]?.country})`;
       let message = `Hi, I don't feel safe and this is where I am: ${addressString} Please, help me! ${googleMapsURL}`;
