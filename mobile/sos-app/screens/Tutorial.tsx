@@ -21,7 +21,7 @@ const Tutorial: FunctionComponent = (props) => {
 
          <View>
             <Pressable style={[styleApp.tutorialSection]} onPress={goToHome}>
-               <Text>All set?</Text>
+               <Text>No more doubts?</Text>
                <Text style={styleApp.tutorialLink}>Go back to the homepage!</Text>
             </Pressable>
          </View>

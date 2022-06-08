@@ -144,8 +144,6 @@ const Home: FunctionComponent = (props) => {
 
       let initials = item.name[0];
       if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
-      let cssClass: Object | [] = [styleApp.nameCircle, styleApp.marginRight];
-      if (state.selectedContacts.includes(item)) cssClass = [styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected];
 
       let picture: string | undefined = '';
       if (item.image) picture = item.image.uri;
@@ -154,20 +152,28 @@ const Home: FunctionComponent = (props) => {
          <Pressable onPress={handleCheck(item)}>
             <View style={styleApp.contactListItem}>
                <View style={styleApp.leftSided}>
+                  {state.selectedContacts.includes(item) ?
 
-                  {picture === '' ?
-                     <View style={cssClass}>
+                     <View style={[styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected]}>
                         <Text style={styleApp.nameCircleText}>
-                           {!state.selectedContacts.includes(item) ? initials : '✓'}
+                           ✓
                         </Text>
                      </View>
-                     :
-                     <ImageBackground
-                        source={{ uri: picture }}
-                        imageStyle={{ borderRadius: 20 }}
-                        style={[styleApp.pictureCircle, styleApp.marginRight]} />
-                  }
 
+                     :
+
+                     picture === '' ?
+                        <View style={[styleApp.nameCircle, styleApp.marginRight]}>
+                           <Text style={styleApp.nameCircleText}>
+                              {initials}
+                           </Text>
+                        </View>
+                        :
+                        <ImageBackground
+                           source={{ uri: picture }}
+                           imageStyle={{ borderRadius: 20 }}
+                           style={[styleApp.pictureCircle, styleApp.marginRight]} />
+                  }
                   <View>
                      <Text>{item.name}</Text>
                   </View >
