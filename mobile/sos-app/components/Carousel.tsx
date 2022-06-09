@@ -49,7 +49,7 @@ const Carousel: FunctionComponent = () => {
                   resizeMode='center'
                   style={[styleCarousel.multiplepageImages, styleCarousel.marginRight]}
                /><Image
-                  source={require('../assets/tutorial/04b.jpg')}
+                  source={require('../assets/tutorial/03b.jpg')}
                   resizeMode='center'
                   style={styleCarousel.multiplepageImages}
                />
