@@ -1,16 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import React, { ReactNode } from 'react';
 
 // components
 import Carousel from '../components/carousel/Carousel';
 
 // modules
 import { Text, Pressable, View } from 'react-native';
+import { StackNavigationProp} from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
 
 // styles
 import styleApp from '../styleApp';
 
 
-const Tutorial: FunctionComponent = (props) => {
+const Tutorial: ReactNode = (props: {navigation: StackNavigationProp<ParamListBase>}) => {
 
    const goToHome = () => {
       props.navigation.navigate('Home');

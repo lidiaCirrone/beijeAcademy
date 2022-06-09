@@ -12,6 +12,8 @@ import * as Linking from 'expo-linking';
 import { Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
 
 // styles
 import styleApp from '../styleApp';
@@ -46,7 +48,7 @@ const initialState: State = {
 
 let allContacts: Contacts.Contact[] = [];
 
-const Home: FunctionComponent = (props) => {
+const Home: FunctionComponent = (props: { navigation: StackNavigationProp<ParamListBase> }) => {
 
    const [state, setState] = useState<State>(initialState);
 
