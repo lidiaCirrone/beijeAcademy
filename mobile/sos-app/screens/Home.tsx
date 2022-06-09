@@ -15,6 +15,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // styles
 import styleApp from '../styleApp';
 
+// utils
+import { _requestLocationPermission, _requestContactsPermission } from '../utils/permissions';
+import { trimWhitespaces } from '../utils/utils';
+
 
 interface MapViewProps {
    latitude: number;
@@ -25,14 +29,16 @@ interface MapViewProps {
 
 interface State {
    hasLocationPermission: boolean;
-   mapCoordinates?: MapViewProps;
-   markerCoordinates?: LatLng | AnimatedRegion;
+   hasContactsPermission: boolean;
    contactsModalVisible: boolean;
    selectedContacts: Contacts.Contact[];
+   mapCoordinates?: MapViewProps;
+   markerCoordinates?: LatLng | AnimatedRegion;
 }
 
 const initialState: State = {
    hasLocationPermission: false,
+   hasContactsPermission: false,
    contactsModalVisible: false,
    selectedContacts: []
 }
@@ -43,55 +49,54 @@ const Home: FunctionComponent = (props) => {
 
    const [state, setState] = useState<State>(initialState);
 
-   const _requestLocationPermission = async (): Promise<void> => {
-
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') return;
-
-      let location = await Location.getCurrentPositionAsync({});
-      let mapPosition = {
-         latitude: location.coords.latitude,
-         longitude: location.coords.longitude,
-         latitudeDelta: 0.0922,
-         longitudeDelta: 0.0421
-      };
-      let markerPosition = {
-         latitude: location.coords.latitude,
-         longitude: location.coords.longitude
+   const _setLocation = async (): Promise<State> => {
+      let locationPermission = await _requestLocationPermission();
+      let updatedState = Object.assign({});
+      updatedState.hasLocationPermission = locationPermission;
+      if (locationPermission) {
+         let location = await Location.getCurrentPositionAsync({});
+         let coordinates = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+         }
+         let mapPosition = {
+            ...coordinates,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+         }
+         updatedState.mapCoordinates = mapPosition;
+         updatedState.markerCoordinates = coordinates;
       }
-      setState({
-         ...state,
-         hasLocationPermission: status === 'granted',
-         mapCoordinates: mapPosition,
-         markerCoordinates: markerPosition
-      })
+      return updatedState;
    }
 
-   const _getStorage = async (): Promise<void> => {
-      let storageSelectedContacts = [];
-      let results = await AsyncStorage.getItem('selectedContacts');
-      if (results !== null && results.length > 0) storageSelectedContacts = JSON.parse(results);
-      setState({
-         ...state,
-         selectedContacts: storageSelectedContacts
-      })
+   const _setContacts = async (): Promise<State> => {
+      let contactsPermission = await _requestContactsPermission();
+      let newState = Object.assign({});
+      newState.hasContactsPermission = contactsPermission;
+      if (contactsPermission) {
+         const { data } = await Contacts.getContactsAsync({
+            fields: [Contacts.Fields.Name, Contacts.Fields.Image, Contacts.Fields.PhoneNumbers],
+         });
+         let filteredContacts = data.filter(person => person.phoneNumbers && person.phoneNumbers.length > 0 && person.phoneNumbers.some(item => item.label === 'mobile'));
+         let storageSelectedContacts = [];
+         let results = await AsyncStorage.getItem('selectedContacts');
+         if (results !== null && results.length > 0) storageSelectedContacts = JSON.parse(results);
+         allContacts = filteredContacts;
+         newState.selectedContacts = storageSelectedContacts;
+      }
+      console.log('setContacts state', newState);
+      return newState;
    }
 
-   const _requestContactsPermission = async (): Promise<void> => {
-      const { status } = await Contacts.requestPermissionsAsync();
-      if (status !== 'granted') return;
-
-      const { data } = await Contacts.getContactsAsync({
-         fields: [Contacts.Fields.Name, Contacts.Fields.Image, Contacts.Fields.PhoneNumbers],
-      });
-      let filteredContacts = data.filter(person => person.phoneNumbers && person.phoneNumbers.length > 0 && person.phoneNumbers.some(item => item.label === 'mobile'));
-      allContacts = filteredContacts;
-      _getStorage();
+   const _setPermissions = async (): Promise<void> => {
+      let newStateLocation = await _setLocation();
+      let newStateContacts = await _setContacts();
+      setState(Object.assign({}, state, newStateLocation, newStateContacts));
    }
 
    useEffect(() => {
-      _requestLocationPermission();
-      _requestContactsPermission();
+      _setPermissions();
    }, [])
 
    const toggleModal = () => {
@@ -101,7 +106,7 @@ const Home: FunctionComponent = (props) => {
       });
    }
 
-   const handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
+   const _handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
       updatedSelectedContacts.includes(contactItem)
          ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
@@ -113,7 +118,7 @@ const Home: FunctionComponent = (props) => {
       });
    }
 
-   const resetSelection = async (): Promise<void> => {
+   const _resetSelection = async (): Promise<void> => {
       await AsyncStorage.clear();
       setState({
          ...state,
@@ -121,13 +126,13 @@ const Home: FunctionComponent = (props) => {
       });
    }
 
-   const askForHelp = async (): Promise<void> => {
+   const _askForHelp = async (): Promise<void> => {
       const smsAvailable = await SMS.isAvailableAsync();
       if (!smsAvailable) return;
       let phoneNumbersArray: Array<string> = [];
       state?.selectedContacts.forEach(person => {
          if (person.phoneNumbers && person.phoneNumbers[0].number) {
-            phoneNumbersArray.push(person.phoneNumbers[0].number.replace(/ /g, ''));
+            phoneNumbersArray.push(trimWhitespaces(person.phoneNumbers[0].number));
          }
       });
       let googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${state?.markerCoordinates?.latitude},${state?.markerCoordinates?.longitude}`;
@@ -154,7 +159,7 @@ const Home: FunctionComponent = (props) => {
       if (item.image) picture = item.image.uri;
 
       return (
-         <Pressable onPress={handleCheck(item)}>
+         <Pressable onPress={_handleCheck(item)}>
             <View style={styleApp.contactListItem}>
                <View style={styleApp.leftSided}>
                   {state.selectedContacts.includes(item) ?
@@ -183,15 +188,15 @@ const Home: FunctionComponent = (props) => {
                      <Text>{item.name}</Text>
                   </View >
                </View >
-               {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
-                  < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
+               {(item.phoneNumbers && item.phoneNumbers[0].number) &&
+                  < Text style={{ fontSize: 10 }} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
                }
             </View>
          </Pressable>
       );
    };
 
-      if (state.hasLocationPermission) {
+   if (state.hasLocationPermission && state.hasContactsPermission) {
 
       return (
          <>
@@ -222,7 +227,7 @@ const Home: FunctionComponent = (props) => {
                />
 
                <View>
-                  <Pressable style={[styleApp.askButton]} onPress={askForHelp}>
+                  <Pressable style={[styleApp.askButton]} onPress={_askForHelp}>
                      <Text style={styleApp.textStyle}>Ask for help!</Text>
                   </Pressable>
                </View>
@@ -242,7 +247,7 @@ const Home: FunctionComponent = (props) => {
                      <View style={styleApp.spaceBetween}>
                         <Pressable
                            style={[styleApp.button, styleApp.resetButton]}
-                           onPress={resetSelection}>
+                           onPress={_resetSelection}>
                            <Text style={styleApp.textStyle}>Reset</Text>
                         </Pressable>
                         <Pressable
@@ -264,7 +269,7 @@ const Home: FunctionComponent = (props) => {
          <View style={[styleApp.errorScreen]}>
             <View>
                <Pressable style={[styleApp.sectionContainer, styleApp.centered]} onPress={openSettings}>
-                  <Text>In order for this app to work, you must grant us permission to access Location, Contacts and SMS.</Text>
+                  <Text>In order for this app to work, you must grant us permission to access Location and Contacts.</Text>
                   <Text style={styleApp.tutorialLink}>Please, tap here and check your settings</Text>
                </Pressable>
             </View>
