@@ -12,7 +12,12 @@ import { trimWhitespaces } from '../utils/utils';
 import ContactPicture from './ContactPicture';
 
 
-const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: GestureResponderEvent) => void }) => {
+interface SelectedContactsProps {
+   data: Contacts.Contact[];
+   callback: (event: GestureResponderEvent) => void;
+}
+
+const SelectedContacts = (props: SelectedContactsProps) => {
 
    const renderSelectedContacts: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
