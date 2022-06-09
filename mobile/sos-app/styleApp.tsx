@@ -45,16 +45,6 @@ export default StyleSheet.create(
          alignSelf: 'stretch',
          marginTop: 15
       },
-      contactListItem: {
-         flexDirection: 'row',
-         alignItems: 'center',
-         justifyContent: 'space-between',
-         marginBottom: 15
-      },
-      leftSided: {
-         flexDirection: 'row',
-         alignItems: 'center'
-      },
       centered: {
          alignItems: 'center'
       },
@@ -75,9 +65,6 @@ export default StyleSheet.create(
       marginRight: {
          marginRight: 15
       },
-      nameCircleSelected: {
-         backgroundColor: '#666'
-      },
       nameCircleText: {
          color: '#fff',
          fontSize: 18
@@ -89,12 +76,6 @@ export default StyleSheet.create(
       spaceBetween: {
          flexDirection: 'row',
          justifyContent: 'space-between'
-      },
-      modalView: {
-         height: Dimensions.get('window').height - 40,
-         margin: 20,
-         backgroundColor: 'white',
-         alignItems: 'center'
       },
       button: {
          borderRadius: 20
@@ -128,11 +109,6 @@ export default StyleSheet.create(
          color: 'white',
          fontWeight: 'bold',
          textAlign: 'center'
-      },
-      modalText: {
-         marginBottom: 15,
-         textAlign: 'center',
-         fontWeight: 'bold'
       },
       smaller: {
          fontSize: 10

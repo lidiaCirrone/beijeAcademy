@@ -7,6 +7,7 @@ import { View, Text, FlatList, Pressable, GestureResponderEvent, ListRenderItem,
 
 // styles
 import styleApp from '../../styleApp';
+import styleContactsModal from './styleContactsModal';
 
 // utils
 import { trimWhitespaces } from '../../utils/utils';
@@ -26,11 +27,11 @@ const ContactsModal = (props: ContactsModalProps) => {
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
       return (
          <Pressable onPress={props.handleCallback(item)}>
-            <View style={styleApp.contactListItem}>
-               <View style={styleApp.leftSided}>
+            <View style={styleContactsModal.contactListItem}>
+               <View style={styleContactsModal.leftSided}>
                   {props.selectedContacts.includes(item) ?
 
-                     <View style={[styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected]}>
+                     <View style={[styleApp.nameCircle, styleApp.marginRight, styleContactsModal.nameCircleSelected]}>
                         <Text style={styleApp.nameCircleText}>
                            ✓
                         </Text>
@@ -56,8 +57,8 @@ const ContactsModal = (props: ContactsModalProps) => {
    };
 
    return (
-      <View style={[styleApp.flexOne, styleApp.modalView]}>
-         <Text style={styleApp.modalText}>Choose your emergency contacts ({props.selectedContacts.length})</Text>
+      <View style={styleContactsModal.modalView}>
+         <Text style={styleContactsModal.modalText}>Choose your emergency contacts ({props.selectedContacts.length})</Text>
          {(props.allContacts && props.allContacts.length > 0) &&
             <FlatList data={props.allContacts} renderItem={renderItem} style={styleApp.contactsList} />
          }
