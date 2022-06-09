@@ -7,6 +7,9 @@ import { FlatList, GestureResponderEvent, ImageBackground, ListRenderItem, ListR
 // styles
 import styleApp from '../styleApp';
 
+// utils
+import { trimWhitespaces } from '../utils/utils';
+
 
 const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: GestureResponderEvent) => void }) => {
 
@@ -36,8 +39,8 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
 
             <Text>{item.name}</Text>
 
-            {(item.phoneNumbers && item.phoneNumbers.length > 0) &&
-               < Text style={{ fontSize: 10 }} > {item.phoneNumbers[0].number?.replace(/ /g, '')}</Text>
+            {(item.phoneNumbers && item.phoneNumbers[0].number) &&
+               < Text style={{ fontSize: 10 }} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
             }
          </View>
       );
