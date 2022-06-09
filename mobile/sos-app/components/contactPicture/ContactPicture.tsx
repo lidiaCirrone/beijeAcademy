@@ -5,10 +5,10 @@ import * as Contacts from 'expo-contacts';
 import { Text, ImageBackground, View, StyleProp, ViewStyle } from 'react-native';
 
 // styles
-import styleApp from '../styleApp';
+import styleApp from '../../styleApp';
 
 // utils
-import { getContactPictureData } from '../utils/utils';
+import { getContactPictureData } from '../../utils/utils';
 
 
 interface ContactPictureProps {

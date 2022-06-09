@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 // components
-import SelectedContacts from '../components/SelectedContacts';
+import SelectedContacts from '../components/selectedContacts/SelectedContacts';
+import ContactsModal from '../components/contactsModal/ContactsModal';
 
 // modules
 import * as Location from 'expo-location';
@@ -18,7 +19,6 @@ import styleApp from '../styleApp';
 // utils
 import { _requestLocationPermission, _requestContactsPermission } from '../utils/permissions';
 import { trimWhitespaces } from '../utils/utils';
-import ContactsModal from '../components/contactsModal/ContactsModal';
 
 
 interface MapViewProps {

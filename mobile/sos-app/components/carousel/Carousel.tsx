@@ -9,6 +9,7 @@ import styleCarousel from './styleCarousel';
 
 
 const Carousel: FunctionComponent = () => {
+   
    return (
       <PagerView
          style={styleCarousel.viewPager}
@@ -18,7 +19,7 @@ const Carousel: FunctionComponent = () => {
          <View style={styleCarousel.page} key="1">
             <Text style={styleCarousel.heading}>Homepage overview</Text>
             <Image
-               source={require('../assets/tutorial/01.jpg')}
+               source={require('../../assets/tutorial/01.jpg')}
                resizeMode='center'
                style={styleCarousel.pageImage}
             />
@@ -29,11 +30,11 @@ const Carousel: FunctionComponent = () => {
             <Text style={styleCarousel.heading}>Adding contacts</Text>
             <View style={styleCarousel.spaceBetween}>
                <Image
-                  source={require('../assets/tutorial/02.jpg')}
+                  source={require('../../assets/tutorial/02.jpg')}
                   resizeMode='center'
                   style={[styleCarousel.multiplepageImages, styleCarousel.marginRight]}
                /><Image
-                  source={require('../assets/tutorial/02b.jpg')}
+                  source={require('../../assets/tutorial/02b.jpg')}
                   resizeMode='center'
                   style={styleCarousel.multiplepageImages}
                />
@@ -45,11 +46,11 @@ const Carousel: FunctionComponent = () => {
             <Text style={styleCarousel.heading}>Asking for help</Text>
             <View style={styleCarousel.spaceBetween}>
                <Image
-                  source={require('../assets/tutorial/03.jpg')}
+                  source={require('../../assets/tutorial/03.jpg')}
                   resizeMode='center'
                   style={[styleCarousel.multiplepageImages, styleCarousel.marginRight]}
                /><Image
-                  source={require('../assets/tutorial/03b.jpg')}
+                  source={require('../../assets/tutorial/03b.jpg')}
                   resizeMode='center'
                   style={styleCarousel.multiplepageImages}
                />

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 // components
-import Carousel from '../components/Carousel';
+import Carousel from '../components/carousel/Carousel';
 
 // modules
 import { Text, Pressable, View } from 'react-native';

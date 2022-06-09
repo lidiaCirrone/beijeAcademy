@@ -1,10 +1,12 @@
+// components
+import ContactPicture from '../contactPicture/ContactPicture';
+
 // modules
 import * as Contacts from 'expo-contacts';
 import { View, Text, FlatList, Pressable, GestureResponderEvent, ListRenderItem, ListRenderItemInfo } from 'react-native';
 
 // styles
 import styleApp from '../../styleApp';
-import ContactPicture from '../ContactPicture';
 
 // utils
 import { trimWhitespaces } from '../../utils/utils';

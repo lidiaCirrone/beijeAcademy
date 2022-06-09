@@ -1,15 +1,17 @@
 import React from 'react';
 
+// components
+import ContactPicture from '../contactPicture/ContactPicture';
+
 // modules
 import * as Contacts from 'expo-contacts';
 import { FlatList, GestureResponderEvent, ListRenderItem, ListRenderItemInfo, Pressable, Text, View } from 'react-native';
 
 // styles
-import styleApp from '../styleApp';
+import styleApp from '../../styleApp';
 
 // utils
-import { trimWhitespaces } from '../utils/utils';
-import ContactPicture from './ContactPicture';
+import { trimWhitespaces } from '../../utils/utils';
 
 
 interface SelectedContactsProps {
