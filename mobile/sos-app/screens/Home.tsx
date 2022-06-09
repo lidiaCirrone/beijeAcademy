@@ -85,7 +85,6 @@ const Home: FunctionComponent = (props) => {
          allContacts = filteredContacts;
          newState.selectedContacts = storageSelectedContacts;
       }
-      console.log('setContacts state', newState);
       return newState;
    }
 
