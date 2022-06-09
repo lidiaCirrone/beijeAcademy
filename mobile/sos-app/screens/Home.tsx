@@ -2,14 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 
 // components
 import SelectedContacts from '../components/SelectedContacts';
-import ContactPicture from '../components/ContactPicture';
 
 // modules
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import * as SMS from 'expo-sms';
 import * as Linking from 'expo-linking';
-import { FlatList, ImageBackground, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,6 +18,7 @@ import styleApp from '../styleApp';
 // utils
 import { _requestLocationPermission, _requestContactsPermission } from '../utils/permissions';
 import { trimWhitespaces } from '../utils/utils';
+import ContactsModal from '../components/contactsModal/ContactsModal';
 
 
 interface MapViewProps {
@@ -150,39 +150,6 @@ const Home: FunctionComponent = (props) => {
       Linking.openSettings();
    }
 
-   const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
-
-      return (
-         <Pressable onPress={_handleCheck(item)}>
-            <View style={styleApp.contactListItem}>
-               <View style={styleApp.leftSided}>
-                  {state.selectedContacts.includes(item) ?
-
-                     <View style={[styleApp.nameCircle, styleApp.marginRight, styleApp.nameCircleSelected]}>
-                        <Text style={styleApp.nameCircleText}>
-                           ✓
-                        </Text>
-                     </View>
-
-                     :
-
-                     <ContactPicture
-                        data={item}
-                        additionalCss={styleApp.marginRight}
-                     />
-                  }
-                  <View>
-                     <Text>{item.name}</Text>
-                  </View >
-               </View >
-               {(item.phoneNumbers && item.phoneNumbers[0].number) &&
-                  < Text style={styleApp.smaller} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
-               }
-            </View>
-         </Pressable>
-      );
-   };
-
    if (state.hasLocationPermission && state.hasContactsPermission) {
 
       return (
@@ -226,24 +193,13 @@ const Home: FunctionComponent = (props) => {
                   animationType='slide'
                   visible={state.contactsModalVisible}
                   onRequestClose={toggleModal}>
-                  <View style={[styleApp.flexOne, styleApp.modalView]}>
-                     <Text style={styleApp.modalText}>Choose your emergency contacts ({state.selectedContacts.length})</Text>
-                     {(allContacts && allContacts.length > 0) &&
-                        <FlatList data={allContacts} renderItem={renderItem} style={styleApp.contactsList} />
-                     }
-                     <View style={styleApp.spaceBetween}>
-                        <Pressable
-                           style={[styleApp.button, styleApp.resetButton]}
-                           onPress={_resetSelection}>
-                           <Text style={styleApp.textStyle}>Reset</Text>
-                        </Pressable>
-                        <Pressable
-                           style={[styleApp.button, styleApp.closeButton]}
-                           onPress={toggleModal}>
-                           <Text style={styleApp.textStyle}>Save</Text>
-                        </Pressable>
-                     </View>
-                  </View>
+                  <ContactsModal
+                     selectedContacts={state.selectedContacts}
+                     allContacts={allContacts}
+                     handleCallback={_handleCheck}
+                     resetCallback={_resetSelection}
+                     modalCallback={toggleModal}
+                  />
                </Modal>
             </View>
 
