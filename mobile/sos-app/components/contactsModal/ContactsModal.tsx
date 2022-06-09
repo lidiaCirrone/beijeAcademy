@@ -29,7 +29,7 @@ const ContactsModal = (props: ContactsModalProps) => {
          <Pressable onPress={props.handleCallback(item)}>
             <View style={styleContactsModal.contactListItem}>
                <View style={styleContactsModal.leftSided}>
-                  {props.selectedContacts.includes(item) ?
+                  {props.selectedContacts.find(element => element.id === item.id) ?
 
                      <View style={[styleApp.nameCircle, styleApp.marginRight, styleContactsModal.nameCircleSelected]}>
                         <Text style={styleApp.nameCircleText}>

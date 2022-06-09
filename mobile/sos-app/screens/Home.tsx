@@ -92,7 +92,7 @@ const Home: FunctionComponent = (props: { navigation: StackNavigationProp<ParamL
    }
 
    const _setPermissions = async (): Promise<void> => {
-      let newStateLocation = await _setLocation();
+      let newStateLocation = await _setLocation(); // ttest
       let newStateContacts = await _setContacts();
       setState(Object.assign({}, state, newStateLocation, newStateContacts));
    }
@@ -110,7 +110,7 @@ const Home: FunctionComponent = (props: { navigation: StackNavigationProp<ParamL
 
    const _handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
-      updatedSelectedContacts.includes(contactItem)
+      updatedSelectedContacts.find(item => item.id === contactItem.id)
          ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
          : updatedSelectedContacts = [...updatedSelectedContacts, contactItem];
       await AsyncStorage.setItem('selectedContacts', JSON.stringify(updatedSelectedContacts));
