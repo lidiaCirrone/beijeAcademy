@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 
 // components
 import SelectedContacts from '../components/SelectedContacts';
+import ContactPicture from '../components/ContactPicture';
 
 // modules
 import * as Location from 'expo-location';
@@ -154,8 +155,8 @@ const Home: FunctionComponent = (props) => {
       let initials = item.name[0];
       if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
 
-      let picture: string | undefined = '';
-      if (item.image) picture = item.image.uri;
+      let pictureUri: string | undefined = '';
+      if (item.image) pictureUri = item.image.uri;
 
       return (
          <Pressable onPress={_handleCheck(item)}>
@@ -171,17 +172,11 @@ const Home: FunctionComponent = (props) => {
 
                      :
 
-                     picture === '' ?
-                        <View style={[styleApp.nameCircle, styleApp.marginRight]}>
-                           <Text style={styleApp.nameCircleText}>
-                              {initials}
-                           </Text>
-                        </View>
-                        :
-                        <ImageBackground
-                           source={{ uri: picture }}
-                           imageStyle={{ borderRadius: 20 }}
-                           style={[styleApp.pictureCircle, styleApp.marginRight]} />
+                     <ContactPicture
+                        text={initials}
+                        picture={pictureUri}
+                        additionalCss={styleApp.marginRight}
+                     />
                   }
                   <View>
                      <Text>{item.name}</Text>

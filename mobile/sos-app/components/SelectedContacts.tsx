@@ -2,13 +2,14 @@ import React from 'react';
 
 // modules
 import * as Contacts from 'expo-contacts';
-import { FlatList, GestureResponderEvent, ImageBackground, ListRenderItem, ListRenderItemInfo, Pressable, Text, View } from 'react-native';
+import { FlatList, GestureResponderEvent, ListRenderItem, ListRenderItemInfo, Pressable, Text, View } from 'react-native';
 
 // styles
 import styleApp from '../styleApp';
 
 // utils
 import { trimWhitespaces } from '../utils/utils';
+import ContactPicture from './ContactPicture';
 
 
 const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: GestureResponderEvent) => void }) => {
@@ -18,24 +19,16 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
       let initials = item.name[0];
       if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
 
-      let picture: string | undefined = '';
-      if (item.image) picture = item.image.uri;
+      let pictureUri: string | undefined = '';
+      if (item.image) pictureUri = item.image.uri;
 
       return (
          <View style={[styleApp.centered, styleApp.marginRight]} >
 
-            {picture === '' ?
-               <View style={styleApp.nameCircle}>
-                  <Text style={styleApp.nameCircleText}>
-                     {initials}
-                  </Text>
-               </View>
-               :
-               <ImageBackground
-                  source={{ uri: picture }}
-                  imageStyle={{ borderRadius: 20 }}
-                  style={styleApp.pictureCircle} />
-            }
+            <ContactPicture
+               text={initials}
+               picture={pictureUri}
+            />
 
             <Text>{item.name}</Text>
 
@@ -57,7 +50,7 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
             </Pressable>
          </View>
          {(props.data && props.data.length > 0)
-         ?
+            ?
             <FlatList
                data={props.data}
                renderItem={renderSelectedContacts}
