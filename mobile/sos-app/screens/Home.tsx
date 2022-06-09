@@ -152,12 +152,6 @@ const Home: FunctionComponent = (props) => {
 
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
-      let initials = item.name[0];
-      if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
-
-      let pictureUri: string | undefined = '';
-      if (item.image) pictureUri = item.image.uri;
-
       return (
          <Pressable onPress={_handleCheck(item)}>
             <View style={styleApp.contactListItem}>
@@ -173,8 +167,7 @@ const Home: FunctionComponent = (props) => {
                      :
 
                      <ContactPicture
-                        text={initials}
-                        picture={pictureUri}
+                        data={item}
                         additionalCss={styleApp.marginRight}
                      />
                   }
@@ -183,7 +176,7 @@ const Home: FunctionComponent = (props) => {
                   </View >
                </View >
                {(item.phoneNumbers && item.phoneNumbers[0].number) &&
-                  < Text style={{ fontSize: 10 }} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
+                  < Text style={styleApp.smaller} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
                }
             </View>
          </Pressable>

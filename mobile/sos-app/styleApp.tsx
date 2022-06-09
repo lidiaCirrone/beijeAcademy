@@ -133,6 +133,9 @@ export default StyleSheet.create(
          marginBottom: 15,
          textAlign: 'center',
          fontWeight: 'bold'
+      },
+      smaller: {
+         fontSize: 10
       }
    }
 )

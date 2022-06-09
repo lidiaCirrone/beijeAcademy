@@ -16,24 +16,17 @@ const SelectedContacts = (props: { data: Contacts.Contact[], callback: (event: G
 
    const renderSelectedContacts: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
-      let initials = item.name[0];
-      if (item.firstName && item.lastName) initials = `${item.firstName[0]}${item.lastName[0]}`;
-
-      let pictureUri: string | undefined = '';
-      if (item.image) pictureUri = item.image.uri;
-
       return (
          <View style={[styleApp.centered, styleApp.marginRight]} >
 
             <ContactPicture
-               text={initials}
-               picture={pictureUri}
+               data={item}
             />
 
             <Text>{item.name}</Text>
 
             {(item.phoneNumbers && item.phoneNumbers[0].number) &&
-               < Text style={{ fontSize: 10 }} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
+               < Text style={styleApp.smaller} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
             }
          </View>
       );

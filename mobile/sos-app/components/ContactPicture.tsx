@@ -1,34 +1,38 @@
 import React from 'react';
 
 // modules
+import * as Contacts from 'expo-contacts';
 import { Text, ImageBackground, View, StyleProp, ViewStyle } from 'react-native';
 
 // styles
 import styleApp from '../styleApp';
 
+// utils
+import { getContactPictureData } from '../utils/utils';
+
 
 interface ContactPictureProps {
-   picture: string | undefined;
-   text: string;
+   data: Contacts.Contact;
    additionalCss?: StyleProp<ViewStyle>;
 }
 
 const ContactPicture = (props: ContactPictureProps) => {
+   let [initials, pictureUri] = getContactPictureData(props.data);
    let viewCss = [styleApp.nameCircle, props.additionalCss];
    let imageCss = [styleApp.pictureCircle, props.additionalCss];
 
-   if (props.picture === '') {
+   if (pictureUri === '') {
       return (
          <View style={viewCss}>
             <Text style={styleApp.nameCircleText}>
-               {props.text}
+               {initials}
             </Text>
          </View>
       )
    } else {
       return (
          <ImageBackground
-            source={{ uri: props.picture }}
+            source={{ uri: pictureUri }}
             imageStyle={{ borderRadius: 20 }}
             style={imageCss} />
       )
