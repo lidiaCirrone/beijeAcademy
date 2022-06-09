@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 // components
 import ContactPicture from '../contactPicture/ContactPicture';
@@ -19,7 +19,7 @@ interface SelectedContactsProps {
    callback: (event: GestureResponderEvent) => void;
 }
 
-const SelectedContacts = (props: SelectedContactsProps) => {
+const SelectedContacts: FunctionComponent<SelectedContactsProps> = (props: SelectedContactsProps) => {
 
    const renderSelectedContacts: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 

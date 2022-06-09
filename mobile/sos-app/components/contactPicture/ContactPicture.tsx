@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 // modules
 import * as Contacts from 'expo-contacts';
@@ -16,7 +16,7 @@ interface ContactPictureProps {
    additionalCss?: StyleProp<ViewStyle>;
 }
 
-const ContactPicture = (props: ContactPictureProps) => {
+const ContactPicture: FunctionComponent<ContactPictureProps> = (props: ContactPictureProps) => {
    let [initials, pictureUri] = getContactPictureData(props.data);
    let viewCss = [styleApp.nameCircle, props.additionalCss];
    let imageCss = [styleApp.pictureCircle, props.additionalCss];

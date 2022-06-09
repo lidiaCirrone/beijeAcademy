@@ -22,6 +22,9 @@ import styleApp from '../styleApp';
 import { _requestLocationPermission, _requestContactsPermission } from '../utils/permissions';
 import { trimWhitespaces } from '../utils/utils';
 
+interface HomeProps {
+   navigation: StackNavigationProp<ParamListBase>;
+}
 
 interface MapViewProps {
    latitude: number;
@@ -48,7 +51,7 @@ const initialState: State = {
 
 let allContacts: Contacts.Contact[] = [];
 
-const Home: FunctionComponent = (props: { navigation: StackNavigationProp<ParamListBase> }) => {
+const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
 
    const [state, setState] = useState<State>(initialState);
 

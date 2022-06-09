@@ -11,7 +11,7 @@ import styleContactsModal from './styleContactsModal';
 
 // utils
 import { trimWhitespaces } from '../../utils/utils';
-
+import { FunctionComponent } from 'react';
 
 
 interface ContactsModalProps {
@@ -22,7 +22,7 @@ interface ContactsModalProps {
    modalCallback: (event: GestureResponderEvent) => void;
 }
 
-const ContactsModal = (props: ContactsModalProps) => {
+const ContactsModal: FunctionComponent<ContactsModalProps> = (props: ContactsModalProps) => {
 
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
       return (
