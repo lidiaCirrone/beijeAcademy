@@ -7,6 +7,7 @@ import SelectedContacts from '../components/SelectedContacts';
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import * as SMS from 'expo-sms';
+import * as Linking from 'expo-linking';
 import { FlatList, ImageBackground, ListRenderItem, ListRenderItemInfo, Modal, Pressable, Text, View } from 'react-native';
 import MapView, { Marker, LatLng, AnimatedRegion } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -140,6 +141,10 @@ const Home: FunctionComponent = (props) => {
       props.navigation.navigate('Tutorial');
    }
 
+   const openSettings = () => {
+      Linking.openSettings();
+   }
+
    const renderItem: ListRenderItem<Contacts.Contact> = ({ item }: ListRenderItemInfo<Contacts.Contact>) => {
 
       let initials = item.name[0];
@@ -186,7 +191,7 @@ const Home: FunctionComponent = (props) => {
       );
    };
 
-   if (state.hasLocationPermission) {
+      if (state.hasLocationPermission) {
 
       return (
          <>
@@ -257,8 +262,12 @@ const Home: FunctionComponent = (props) => {
 
       return (
          <View style={[styleApp.errorScreen]}>
-            <Text>In order for this app to work, you must grant us permission to access Location, Contacts and SMS.</Text>
-            {/* TO-DO: open settings App */}
+            <View>
+               <Pressable style={[styleApp.sectionContainer, styleApp.centered]} onPress={openSettings}>
+                  <Text>In order for this app to work, you must grant us permission to access Location, Contacts and SMS.</Text>
+                  <Text style={styleApp.tutorialLink}>Please, tap here and check your settings</Text>
+               </Pressable>
+            </View>
          </View>
       )
 
