@@ -95,7 +95,7 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
    }
 
    const _setPermissions = async (): Promise<void> => {
-      let newStateLocation = await _setLocation(); // ttest
+      let newStateLocation = await _setLocation();
       let newStateContacts = await _setContacts();
       setState(Object.assign({}, state, newStateLocation, newStateContacts));
    }
