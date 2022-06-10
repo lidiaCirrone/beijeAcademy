@@ -112,8 +112,6 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
    }
 
    const _handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
-      console.log(state.selectedContacts);
-      console.log('id clicked', contactItem.id);
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
       updatedSelectedContacts.find(item => item.id == contactItem.id)
          ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item.id !== contactItem.id)
