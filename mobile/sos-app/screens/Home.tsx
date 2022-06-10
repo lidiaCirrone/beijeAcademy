@@ -162,7 +162,7 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
             <View style={styleApp.screenContainer}>
 
                <View>
-                  <Pressable style={[styleApp.sectionContainer, styleApp.centered]} onPress={goToTutorial}>
+                  <Pressable style={[styleApp.sectionContainer, styleApp.centered, styleApp.marginTop]} onPress={goToTutorial}>
                      <Text>Not sure what to do?</Text>
                      <Text style={styleApp.tutorialLink}>Have a look at the tutorial!</Text>
                   </Pressable>
