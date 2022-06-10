@@ -28,29 +28,32 @@ const ContactsModal: FunctionComponent<ContactsModalProps> = (props: ContactsMod
       return (
          <Pressable onPress={props.handleCallback(item)}>
             <View style={styleContactsModal.contactListItem}>
-               <View style={styleContactsModal.leftSided}>
-                  {props.selectedContacts.find(element => element.id === item.id) ?
 
+               <View style={styleContactsModal.leftSided}>
+
+                  {props.selectedContacts.find(element => element.id === item.id) ?
                      <View style={[styleApp.nameCircle, styleApp.marginRight, styleContactsModal.nameCircleSelected]}>
                         <Text style={styleApp.nameCircleText}>
                            ✓
                         </Text>
                      </View>
-
                      :
-
                      <ContactPicture
                         data={item}
                         additionalCss={styleApp.marginRight}
                      />
                   }
+
                   <View>
                      <Text>{item.name}</Text>
                   </View >
+
                </View >
+
                {(item.phoneNumbers && item.phoneNumbers[0].number) &&
                   < Text style={styleApp.smaller} > {trimWhitespaces(item.phoneNumbers[0].number)}</Text>
                }
+               
             </View>
          </Pressable>
       );
