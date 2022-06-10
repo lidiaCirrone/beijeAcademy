@@ -193,7 +193,7 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
                   </View>
                   :
                   <View style={styleApp.marginTop100}>
-                     <Text>Add at least 1 contact to ask for help!</Text>
+                     <Text>Add at least 1 contact to get started!</Text>
                   </View>
                }
 
