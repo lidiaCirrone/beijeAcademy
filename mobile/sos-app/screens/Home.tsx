@@ -170,14 +170,14 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
 
                <View style={styleApp.sectionContainer}>
                   <Text style={styleApp.heading}>Your location</Text>
-                  {/* <MapView
+                  <MapView
                      style={styleApp.map}
                      region={state.mapCoordinates}
                   >
                      {state.markerCoordinates &&
                         <Marker coordinate={state.markerCoordinates} title='You' />
                      }
-                  </MapView> */}
+                  </MapView>
                </View>
 
                <SelectedContacts
