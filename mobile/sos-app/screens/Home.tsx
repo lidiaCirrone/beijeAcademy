@@ -112,9 +112,11 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
    }
 
    const _handleCheck = (contactItem: Contacts.Contact) => async (): Promise<void> => {
+      console.log(state.selectedContacts);
+      console.log('id clicked', contactItem.id);
       let updatedSelectedContacts: Contacts.Contact[] = state.selectedContacts;
-      updatedSelectedContacts.find(item => item.id === contactItem.id)
-         ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item !== contactItem)
+      updatedSelectedContacts.find(item => item.id == contactItem.id)
+         ? updatedSelectedContacts = updatedSelectedContacts.filter(item => item.id !== contactItem.id)
          : updatedSelectedContacts = [...updatedSelectedContacts, contactItem];
       await AsyncStorage.setItem('selectedContacts', JSON.stringify(updatedSelectedContacts));
       setState({
@@ -170,14 +172,14 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
 
                <View style={styleApp.sectionContainer}>
                   <Text style={styleApp.heading}>Your location</Text>
-                  <MapView
+                  {/* <MapView
                      style={styleApp.map}
                      region={state.mapCoordinates}
                   >
                      {state.markerCoordinates &&
                         <Marker coordinate={state.markerCoordinates} title='You' />
                      }
-                  </MapView>
+                  </MapView> */}
                </View>
 
                <SelectedContacts
