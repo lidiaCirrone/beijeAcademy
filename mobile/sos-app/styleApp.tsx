@@ -59,8 +59,8 @@ export default StyleSheet.create(
       marginTop: {
          marginTop: 15
       },
-      marginTopMore: {
-         marginTop: 70
+      marginTop100: {
+         marginTop: 100
       },
       marginRight: {
          marginRight: 15

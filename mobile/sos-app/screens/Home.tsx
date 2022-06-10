@@ -185,11 +185,17 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
                   callback={toggleModal}
                />
 
-               <View>
-                  <Pressable style={[styleApp.askButton]} onPress={_askForHelp}>
-                     <Text style={styleApp.textStyle}>Ask for help!</Text>
-                  </Pressable>
-               </View>
+               {(state.selectedContacts && state.selectedContacts.length > 0) ?
+                  <View>
+                     <Pressable style={[styleApp.askButton]} onPress={_askForHelp}>
+                        <Text style={styleApp.textStyle}>Ask for help!</Text>
+                     </Pressable>
+                  </View>
+                  :
+                  <View style={styleApp.marginTop100}>
+                     <Text>Add at least 1 contact to ask for help!</Text>
+                  </View>
+               }
 
             </View>
 
